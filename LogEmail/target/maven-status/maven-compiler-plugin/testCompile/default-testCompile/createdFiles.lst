@@ -1,0 +1,14 @@
+edu\csula\ccc\ccctest\LambdaFunctionHandlerTest.class
+edu\csula\ccc\ccctest\TestUtils$DynamodbEventMixin$AttributeValueMixIn.class
+edu\csula\ccc\ccctest\TestUtils$1.class
+edu\csula\ccc\ccctest\TestUtils$DateTimeDeserializer.class
+edu\csula\ccc\ccctest\TestUtils$DateTimeSerializer.class
+edu\csula\ccc\ccctest\TestUtils$DynamodbEventMixin$RecordMixin.class
+edu\csula\ccc\ccctest\TestUtils$DynamodbEventMixin$StreamRecordMixin.class
+edu\csula\ccc\ccctest\TestUtils$TestJacksonMapperModule.class
+edu\csula\ccc\ccctest\TestUtils$DynamodbEventMixin.class
+edu\csula\ccc\ccctest\TestContext$1.class
+edu\csula\ccc\ccctest\TestContext$TestLogger.class
+edu\csula\ccc\ccctest\TestUtils$UpperCaseRecordsPropertyNamingStrategy.class
+edu\csula\ccc\ccctest\TestUtils.class
+edu\csula\ccc\ccctest\TestContext.class
