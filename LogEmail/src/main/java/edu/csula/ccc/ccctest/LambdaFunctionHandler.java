@@ -14,10 +14,10 @@ import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.PublishResult;
 
 public class LambdaFunctionHandler implements RequestHandler<Object, String> {
-	private static final String REGION = "us-east-1";
-	private static final String TOPIC_ARN = "arn:aws:sns:us-east-1:112911356528:TestTopic";
-	private static final String ACCESS_KEY_ID = "AKIAI5H4Y2GDQWXMQJMQ";
-	private static final String SECRET_ACCESS_KEY = "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";
+	private static final String REGION = "";
+	private static final String TOPIC_ARN = "";
+	private static final String ACCESS_KEY_ID = "";
+	private static final String SECRET_ACCESS_KEY = "";
 	private static final AWSCredentials CREDENTIALS = new BasicAWSCredentials(ACCESS_KEY_ID, SECRET_ACCESS_KEY);
 	private static final AWSCredentialsProvider CREDENTIALS_PROVIDER = new AWSStaticCredentialsProvider(CREDENTIALS);
 	private static final AmazonSNS SNS_CLIENT = AmazonSNSClientBuilder.standard().withRegion(REGION).withCredentials(CREDENTIALS_PROVIDER).build();
