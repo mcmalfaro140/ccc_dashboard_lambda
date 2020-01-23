@@ -68,11 +68,11 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
 			String level = logEvent.getLevel();
 			
 			if (level.equals("WARN")) {
-				PublishRequest request = new PublishRequest(AwsParams.WARN_TOPIC_ARN, logEvent.getStringRepresentation());
+				PublishRequest request = new PublishRequest(AwsParams.WARN_TOPIC_ARN, logEvent.getString());
 				snsClient.publish(request);
 			}
 			else if (level.equals("ERROR")) {
-				PublishRequest request = new PublishRequest(AwsParams.ERROR_TOPIC_ARN, logEvent.getStringRepresentation());
+				PublishRequest request = new PublishRequest(AwsParams.ERROR_TOPIC_ARN, logEvent.getString());
 				snsClient.publish(request);
 			}
 		}

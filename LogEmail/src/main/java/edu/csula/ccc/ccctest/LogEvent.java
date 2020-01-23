@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 class LogEvent {
-	private static final ObjectMapper MAPPER = new ObjectMapper();
-	private JsonNode jsonRepresentation;
-	private String stringRepresentation;
+	private static final ObjectMapper MAPPER = new ObjectMapper();	
+	private JsonNode _json;
+	private String _string;
 	
 	private LogEvent(JsonNode logEvent) {
-		this.stringRepresentation = logEvent.get("message").asText();
+		this._string = logEvent.get("message").asText();
 		
 		try {
-			this.jsonRepresentation = LogEvent.MAPPER.readTree(this.stringRepresentation);
+			this._json = LogEvent.MAPPER.readTree(this._string);
 		} catch (IOException e) {
 			throw new InternalError("Failed to parse JSON", e);
 		}
@@ -38,15 +38,15 @@ class LogEvent {
 		return logEventList;
 	}
 	
-	public JsonNode getJsonRepresentation() {
-		return this.jsonRepresentation;
+	public JsonNode getJson() {
+		return this._json;
 	}
 	
-	public String getStringRepresentation() {
-		return this.stringRepresentation;
+	public String getString() {
+		return this._string;
 	}
 	
 	public String getLevel() {
-		return this.jsonRepresentation.get("level").asText();
+		return this.getJson().get("level").asText();
 	}
 }
