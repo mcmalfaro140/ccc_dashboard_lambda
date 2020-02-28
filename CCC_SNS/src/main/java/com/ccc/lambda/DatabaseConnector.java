@@ -20,13 +20,17 @@ public class DatabaseConnector implements AutoCloseable {
 	
 	public ResultSet getAlarmsForLogGroupsAndStreams(String logGroup, String logStream) {
 		String sql = 
-    			"SELECT LogAlarms.SNSTopicArn, LogLevelCriteria.LogLevel, LogLevelCriteria.LogCondition " + 
-    			"FROM LogAlarms " + 
-    			"INNER JOIN LogLevelCriteria ON LogAlarms.LogLevelCriteriaId = LogLevelCriteria.LogLevelCriteriaId " +
-    			"WHERE LogAlarms.LogGroups LIKE '%" + logGroup + "%' AND LogAlarms.LogStreams LIKE '%" + logStream + "%';";
+    			"SELECT DISTINCT LA.SNSTopicArn, LLC.LogLevel, LLC.LogCondition " + 
+    			"FROM LogAlarms LA " + 
+    			"INNER JOIN LogLevelCriteria LLC ON LA.LogLevelCriteriaId = LLC.LogLevelCriteriaId " +
+    			"INNER JOIN XRefAlarmGroup XAG ON XAG.LogAlarmId = LA.LogAlarmId " +
+    			"INNER JOIN LogGroups LG ON LG.LogGroupId = XAG.LogGroupId " +
+    			"INNER JOIN XRefAlarmStream XAS ON XAS.LogAlarmId = LA.LogAlarmId " +
+    			"INNER JOIN LogStreams LS ON LS.LogStreamId = XAS.LogStreamId " +
+    			"WHERE LG.Name LIKE '%" + logGroup + "%' AND LS.Name LIKE '%" + logStream + "%';";
     			
     	try {
-    		PreparedStatement stmt = conn.prepareStatement(sql);
+    		PreparedStatement stmt = this.conn.prepareStatement(sql);
     		ResultSet set = stmt.executeQuery();
     		
     		return set;
