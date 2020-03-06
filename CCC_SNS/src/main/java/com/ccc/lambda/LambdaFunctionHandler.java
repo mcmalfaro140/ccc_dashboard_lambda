@@ -27,7 +27,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     }
     
     private List<String> _getSNSTopics(LogData logData) {
-    	try(DatabaseConnector conn = new DatabaseConnector()) {
+    	try (DatabaseConnector conn = new DatabaseConnector()) {
     		return conn.getSNSTopics(logData);
     	}
     }
