@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DatabaseConnector implements AutoCloseable {
 	private Connection conn;
@@ -18,30 +20,51 @@ public class DatabaseConnector implements AutoCloseable {
 		}
 	}
 	
-	public ResultSet getAlarmsForLogGroupsAndStreams(String logGroup, String logStream) {
-		String sql = 
-    			"SELECT DISTINCT LA.SNSTopicArn, LLC.LogLevel, LLC.LogCondition " + 
-    			"FROM LogAlarms LA " + 
-    			"INNER JOIN LogLevelCriteria LLC ON LA.LogLevelCriteriaId = LLC.LogLevelCriteriaId " +
-    			"INNER JOIN XRefAlarmGroup XAG ON XAG.LogAlarmId = LA.LogAlarmId " +
-    			"INNER JOIN LogGroups LG ON LG.LogGroupId = XAG.LogGroupId " +
-    			"INNER JOIN XRefAlarmStream XAS ON XAS.LogAlarmId = LA.LogAlarmId " +
-    			"INNER JOIN LogStreams LS ON LS.LogStreamId = XAS.LogStreamId " +
-    			"WHERE LG.Name LIKE '%" + logGroup + "%' AND LS.Name LIKE '%" + logStream + "%';";
-    			
-    	try {
-    		PreparedStatement stmt = this.conn.prepareStatement(sql);
-    		ResultSet set = stmt.executeQuery();
-    		
-    		return set;
-    	} catch (SQLException ex) {
-    		String errorInfo = String.format(
-    				"Error while retrieving alarms associated with the LogGroup={%s} and LogStream={%s}",
-    				logGroup, logStream
-    		);
-    		
-    		throw new InternalError(errorInfo, ex);
-    	}
+	public List<String> getSNSTopics(LogData logData) {
+		String sql = this._makeSqlStatement(logData);
+		
+		try {
+			PreparedStatement stmt = this.conn.prepareStatement(sql);
+			ResultSet set = stmt.executeQuery();
+			
+			List<String> snsTopics = new LinkedList<String>();
+			
+			while (set.next()) {
+				String current = set.getString(1);
+				snsTopics.add(current);
+			}
+			
+			return snsTopics;
+		} catch (SQLException ex) {
+			throw new InternalError("Error while querying database", ex);
+		}
+	}
+	
+	private String _makeSqlStatement(LogData logData) {
+		StringBuilder sql = new StringBuilder(
+			 "SELECT ST.TopicArn " + 
+			 "FROM SNSTopics ST " +
+			 "INNER JOIN XRefSNSTopicTrigger XRST ON ST.SNSTopicId = XRST.SNSTopicId " +
+			 "INNER JOIN Triggers T ON XRST.TriggerId = T.TriggerId " +
+			 "WHERE "
+		);
+		List<String> subscriptionFilterList = logData.getSubscriptionFilters();
+		
+		for (int index = 0; index < subscriptionFilterList.size(); ++index) {
+			sql.append("T.SubscriptionName = ");
+			sql.append('\'');
+			sql.append(subscriptionFilterList.get(index));
+			sql.append('\'');
+			
+			if (subscriptionFilterList.size() - 1 == index) {
+				sql.append(';');
+			}
+			else {
+				sql.append(" OR ");
+			}
+		}
+		
+		return sql.toString();
 	}
 	
 	@Override
