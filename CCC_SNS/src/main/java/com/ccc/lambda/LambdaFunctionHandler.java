@@ -11,7 +11,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     	LogData logData = LogParser.parse(input);
     	this._sendMessages(logData);
     	
-    	context.getLogger().log(logData.toString());
+    	//context.getLogger().log(logData.toString());
     	
     	return "";
     }
