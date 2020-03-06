@@ -3,15 +3,15 @@
 	<appender name="cloud-watch" class="io.github.dibog.AwsLogAppender">
 		<awsConfig>
 			<credentials>
-				<accessKeyId>AKIAILZ3MR2SAOWZD4WA</accessKeyId>
-				<secretAccessKey>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</secretAccessKey>
+				<accessKeyId></accessKeyId>
+				<secretAccessKey></secretAccessKey>
 			</credentials>
-			<region>us-east-1</region>
+			<region></region>
 		</awsConfig>
 		
 		<createLogGroup>true</createLogGroup>
-		<groupName>test3</groupName>
-		<streamName>testStream3</streamName>
+		<groupName></groupName>
+		<streamName></streamName>
 		
 		<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
 	        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
