@@ -23,18 +23,17 @@ public class DatabaseConnector implements AutoCloseable {
 	public List<String> getSNSTopics(LogData logData) {
 		String sql = this._makeSqlStatement(logData);
 		
-		try {
-			PreparedStatement stmt = this.conn.prepareStatement(sql);
-			ResultSet set = stmt.executeQuery();
-			
-			List<String> snsTopics = new LinkedList<String>();
-			
-			while (set.next()) {
-				String current = set.getString(1);
-				snsTopics.add(current);
+		try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
+			try (ResultSet set = stmt.executeQuery()) {
+				List<String> snsTopics = new LinkedList<String>();
+				
+				while (set.next()) {
+					String current = set.getString(1);
+					snsTopics.add(current);
+				}
+				
+				return snsTopics;
 			}
-			
-			return snsTopics;
 		} catch (SQLException ex) {
 			throw new InternalError("Error while querying database", ex);
 		}
