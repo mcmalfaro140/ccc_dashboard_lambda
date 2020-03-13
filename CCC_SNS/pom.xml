@@ -7,7 +7,7 @@
 
   <groupId>com.ccc</groupId>
   <artifactId>lambda</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.19</version>
   <packaging>jar</packaging>
 
   <build>
