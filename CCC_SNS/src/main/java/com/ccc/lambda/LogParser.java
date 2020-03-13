@@ -9,7 +9,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
-public class LogParser {	
+class LogParser {	
 	private LogParser() {
 	}
 	

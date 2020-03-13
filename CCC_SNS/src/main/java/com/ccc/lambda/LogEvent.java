@@ -3,7 +3,7 @@ package com.ccc.lambda;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-public class LogEvent {
+class LogEvent {
 	private String id;
 	private long timestamp;
 	@JsonDeserialize(converter=LogMessageConverter.class)

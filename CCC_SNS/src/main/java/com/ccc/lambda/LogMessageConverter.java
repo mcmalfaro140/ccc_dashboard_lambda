@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.databind.util.StdConverter;
 
-public class LogMessageConverter extends StdConverter<String, LogMessage> {	
+class LogMessageConverter extends StdConverter<String, LogMessage> {	
 	private LogMessageConverter() {
 	}
 	

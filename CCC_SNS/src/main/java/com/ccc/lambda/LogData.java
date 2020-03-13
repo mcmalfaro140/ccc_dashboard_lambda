@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class LogData {
+class LogData {
 	private String messageType;
 	private String owner;
 	private String logGroup;

@@ -1,18 +1,15 @@
 package com.ccc.lambda;
 
-import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 
-public class AmazonSNSWrapper {
+class AmazonSNSWrapper {
 	private static AmazonSNS SNS_CLIENT;
 	
 	static {
-		AWSCredentials credentials = new BasicAWSCredentials(AwsParams.ACCESS_KEY_ID, AwsParams.SECRET_ACCESS_KEY);
-		AWSCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(credentials);
+		AWSCredentialsProvider credentialsProvider = new EnvironmentVariableCredentialsProvider();
 		
 		AmazonSNSWrapper.SNS_CLIENT = AmazonSNSClientBuilder
 				.standard()
