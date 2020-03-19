@@ -1,4 +1,4 @@
-package com.ccc.lambda;
+package com.ccc.logs.notifications;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -9,21 +9,37 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
-class LogParser {	
+/**
+ * Responsible for decompressing and parsing the log data into a form
+ * that can be read easily. The log data is the main input to the
+ * Lambda function
+ */
+class LogParser {
+	/**
+	 * Suppresses the default constructor
+	 */
 	private LogParser() {
 	}
 	
+	/**
+	 * Decompresses and parses the main
+	 * @param input The main input (in other words, log data)
+	 * to our Lambda function
+	 * @return The decompressed and parsed log data that was
+	 * input to our Lambda function
+	 */
 	public static LogData parse(Object input) {
-		try {
-			String awslogs = LogParser._decodeInput(input);
-			LogData data = ObjectMapperContainer.getJsonParser().readValue(awslogs, LogData.class);
-			
-			return data;
-		} catch (IOException ex) {
-			throw new InternalError("Error while parsing JSON", ex);
-		}
+		String awslogs = LogParser._decodeInput(input);
+		LogData data = JsonParser.instance().parse(awslogs, LogData.class);
+		
+		return data;
 	}
 	
+	/**
+	 * Decompresses the input to out Lambda function
+	 * @param input The data to be decompressed
+	 * @return The decompressed input
+	 */
 	private static String _decodeInput(Object input) {
 		@SuppressWarnings("unchecked")
 		Map<String, Map<String, String>> map = (Map<String, Map<String, String>>)input;
