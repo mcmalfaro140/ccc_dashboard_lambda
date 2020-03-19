@@ -20,6 +20,7 @@
 		<java.version>1.8</java.version>
 		<ch.qos.logback.contrib.version>0.1.5</ch.qos.logback.contrib.version>
 		<cloudwatch-logback-appender.version>1.0.6</cloudwatch-logback-appender.version>
+		<aws-java-sdk-logs.version>1.11.630</aws-java-sdk-logs.version>
 	</properties>
 	
 	<build>
@@ -52,7 +53,7 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-logs</artifactId>
-			<version>1.11.630</version>
+			<version>${aws-java-sdk-logs.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.dibog</groupId>
