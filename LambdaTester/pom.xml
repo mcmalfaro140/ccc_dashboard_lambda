@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.9.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.ccc</groupId>
 	<artifactId>api</artifactId>
@@ -16,13 +18,20 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<ch.qos.logback.contrib.version>0.1.5</ch.qos.logback.contrib.version>
+		<cloudwatch-logback-appender.version>1.0.6</cloudwatch-logback-appender.version>
 	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -31,11 +40,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>org.hibernate</groupId>
@@ -53,7 +57,7 @@
 		<dependency>
 			<groupId>io.github.dibog</groupId>
 			<artifactId>cloudwatch-logback-appender</artifactId>
-			<version>1.0.6</version>
+			<version>${cloudwatch-logback-appender.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.amazonaws</groupId>
@@ -64,22 +68,12 @@
 		<dependency>
 			<groupId>ch.qos.logback.contrib</groupId>
 			<artifactId>logback-json-classic</artifactId>
-			<version>0.1.5</version>
+			<version>${ch.qos.logback.contrib.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback.contrib</groupId>
 			<artifactId>logback-jackson</artifactId>
-			<version>0.1.5</version>
+			<version>${ch.qos.logback.contrib.version}</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>
