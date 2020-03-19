@@ -12,7 +12,7 @@
 	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api</name>
-	<description>Back end for senior design project for commonwealth insurance.</description>
+	<description>Fake backend to test the AWS Lambda function</description>
 
 	<properties>
 		<java.version>1.8</java.version>
