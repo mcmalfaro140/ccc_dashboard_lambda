@@ -1,4 +1,4 @@
-package com.ccc.lambda;
+package com.ccc.logs.notifications.test;
 
 import com.amazonaws.services.lambda.runtime.ClientContext;
 import com.amazonaws.services.lambda.runtime.CognitoIdentity;

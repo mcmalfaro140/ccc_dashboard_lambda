@@ -1,4 +1,4 @@
-package com.ccc.lambda;
+package com.ccc.logs.notifications.test;
 
 import java.io.IOException;
 import java.util.HashMap;
