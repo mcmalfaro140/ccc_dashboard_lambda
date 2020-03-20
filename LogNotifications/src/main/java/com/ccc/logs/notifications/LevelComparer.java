@@ -30,8 +30,13 @@ class LevelComparer {
 	 * criteria, <tt>false</tt> otherwise
 	 */
 	public static boolean compare(String level, LogLevelCriteriaData logLevelCriteria) {
-		LogLevel levelOfLog = LogLevel.valueOf(level);
 		LogLevel levelOfThreshold = LogLevel.valueOf(logLevelCriteria.getLogLevel());
+		
+		if (LogLevel.ANY.equals(levelOfThreshold)) {
+			return true;
+		}
+		
+		LogLevel levelOfLog = LogLevel.valueOf(level);
 		
 		switch (logLevelCriteria.getCriteria()) {
 		case "==":
