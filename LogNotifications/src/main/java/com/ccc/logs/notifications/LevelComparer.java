@@ -9,7 +9,7 @@ class LevelComparer {
 	 * Used to make comparison of log levels easier
 	 * by using ordinal values
 	 */
-	private enum LogLevel { TRACE, DEBUG, INFO, WARN, ERROR }
+	private enum LogLevel { ANY, TRACE, DEBUG, INFO, WARN, ERROR }
 	
 	/**
 	 * Suppresses default constructor
