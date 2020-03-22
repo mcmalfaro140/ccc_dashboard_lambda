@@ -125,6 +125,11 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     	return sb.toString();
     }
     
+    /**
+     * Logs data about this invocation of the Lambda function
+     * @param logger The logger that logs to AWS CloudWatch
+     * @param context The context object
+     */
     private void _logInvocationData(LambdaLogger logger, Context context) {
     	logger.log("Function: " + context.getFunctionName());
     	logger.log("Max memory allocated in MB: " + context.getMemoryLimitInMB());

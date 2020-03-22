@@ -15,10 +15,10 @@ class KeywordSearcher {
 	 * Searches a log message for certain keywords
 	 * and sees if it finds any
 	 * @param message The log message to be searched
-	 * @param keywordList The list of keywords to search
-	 * for
-	 * @return <tt>true</tt> if all of the given keywords
-	 * are found in the log message, <tt>false</tt> otherwise
+	 * @param keywordData The keyword information to be
+	 * applied to the search
+	 * @return <tt>true</tt> if the logs meets all of the criteria
+	 * specified in the keyword data, <tt>false</tt> otherwise
 	 */
 	public static boolean search(String message, KeywordData keywordData) {
 		if (null == keywordData) {
@@ -36,6 +36,13 @@ class KeywordSearcher {
 		}
 	}
 	
+	/**
+	 * Checks if all of the keywords appear in the log message
+	 * @param message The message to be searched
+	 * @param keywordList The keywords to searched for
+	 * @return <tt>true</tt> if all keywords are present in the
+	 * log message, <tt>false</tt> otherwise
+	 */
 	private static boolean _andSearch(String message, String[] keywordList) {
 		for (String keyword : keywordList) {
 			if (!KeywordSearcher._containsIgnoreCase(message, keyword)) {
@@ -46,6 +53,13 @@ class KeywordSearcher {
 		return true;
 	}
 	
+	/**
+	 * Checks if any of the keywords appear in the log message
+	 * @param message The message to be searched
+	 * @param keywordList The keywords to search for
+	 * @return <tt>true</tt> if any keywords are present in the
+	 * log message, <tt>false</tt> otherwise
+	 */
 	private static boolean _orSearch(String message, String[] keywordList) {
 		for (String keyword : keywordList) {
 			if (KeywordSearcher._containsIgnoreCase(message, keyword)) {

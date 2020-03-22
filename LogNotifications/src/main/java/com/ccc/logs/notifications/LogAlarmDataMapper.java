@@ -45,12 +45,13 @@ class LogAlarmDataMapper {
 	}
 	
 	/**
-	 * Extracts the list of keywords for the current
+	 * Extracts the data on the keywords for the current
 	 * row of the <tt>ResultSet</tt>
 	 * @param set The <tt>ResultSet</tt> to have data
 	 * extracted from it
-	 * @return The list of keywords for the current row
-	 * of the <tt>ResultSet</tt>
+	 * @return The data on the keywords for the current row
+	 * of the <tt>ResultSet</tt>, <tt>null</tt> if there are
+	 * no keywords to search for
 	 * @throws SQLException Thrown if there is an exception
 	 * extracting the keywords from the <tt>ResultSet</tt>
 	 */
