@@ -9,7 +9,7 @@ class LevelComparer {
 	 * Used to make comparison of log levels easier
 	 * by using ordinal values
 	 */
-	private enum LogLevel { ANY, TRACE, DEBUG, INFO, WARN, ERROR }
+	private enum LogLevel { TRACE, DEBUG, INFO, WARN, ERROR }
 	
 	/**
 	 * Suppresses default constructor
@@ -30,12 +30,7 @@ class LevelComparer {
 	 * criteria, <tt>false</tt> otherwise
 	 */
 	public static boolean compare(String level, LogLevelCriteriaData logLevelCriteria) {
-		LogLevel levelOfThreshold = LogLevel.valueOf(logLevelCriteria.getLogLevel());
-		
-		if (LogLevel.ANY.equals(levelOfThreshold)) {
-			return true;
-		}
-		
+		LogLevel levelOfThreshold = LogLevel.valueOf(logLevelCriteria.getLogLevel());		
 		LogLevel levelOfLog = LogLevel.valueOf(level);
 		
 		switch (logLevelCriteria.getComparison()) {
