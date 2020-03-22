@@ -40,4 +40,6 @@ class AWSParams {
 	 * the Lambda function's environment variables
 	 */
 	public static final String REGION = System.getenv("AWS_REGION");
+	
+	public static final String EXCEPTION_SNS_TOPIC_ARN = System.getenv("EXCEPTION_SNS_TOPIC_ARN");
 }

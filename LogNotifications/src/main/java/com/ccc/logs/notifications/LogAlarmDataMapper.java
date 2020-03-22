@@ -31,11 +31,11 @@ class LogAlarmDataMapper {
 		try {
 			while (set.next()) {
 				int logAlarmId = set.getInt("LogAlarmId");
-				String[] keywordList = LogAlarmDataMapper._extractKeywordList(set);
+				KeywordData keywordData = LogAlarmDataMapper._extractKeywordList(set);
 				SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
 				LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);
 				
-				logAlarmList.add(new LogAlarmData(logAlarmId, snsTopicDataList, keywordList, logLevelCriteriaData));
+				logAlarmList.add(new LogAlarmData(logAlarmId, snsTopicDataList, keywordData, logLevelCriteriaData));
 			}
 			
 			return logAlarmList;
@@ -54,10 +54,11 @@ class LogAlarmDataMapper {
 	 * @throws SQLException Thrown if there is an exception
 	 * extracting the keywords from the <tt>ResultSet</tt>
 	 */
-	private static String[] _extractKeywordList(ResultSet set) throws SQLException {
+	private static KeywordData _extractKeywordList(ResultSet set) throws SQLException {
 		String keywords = set.getString("Keywords");
+		String relationship = set.getString("Relationship");
 		
-		return (null == keywords) ? null : keywords.split(",");
+		return (null == keywords) ? null : new KeywordData(keywords.split(","), relationship);
 	}
 	
 	/**
@@ -132,7 +133,7 @@ class LogAlarmDataMapper {
 	private static LogLevelCriteriaData _extractLogLevelCriteriaData(ResultSet set) throws SQLException {
 		int logLevelCriteriaId = set.getInt("LogLevelCriteriaId");
 		String logLevel = set.getString("LogLevel");
-		String criteria = set.getString("Criteria");
+		String criteria = set.getString("Comparison");
 		
 		return new LogLevelCriteriaData(logLevelCriteriaId, logLevel, criteria);
 	}

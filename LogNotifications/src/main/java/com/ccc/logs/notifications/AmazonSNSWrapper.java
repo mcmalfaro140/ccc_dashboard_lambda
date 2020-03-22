@@ -15,21 +15,11 @@ class AmazonSNSWrapper {
 	/**
 	 * The Amazon SNS client object
 	 */
-	private static AmazonSNS SNS_CLIENT;
-	
-	/**
-	 * Builds the Amazon SNS client object
-	 * with the appropriate credentials and other parameters
-	 */
-	static {
-		AWSCredentialsProvider credentialsProvider = new EnvironmentVariableCredentialsProvider();
-		
-		AmazonSNSWrapper.SNS_CLIENT = AmazonSNSClientBuilder
-				.standard()
-				.withCredentials(credentialsProvider)
-				.withRegion(AWSParams.REGION)
-				.build();
-	}
+	private static AmazonSNS SNS_CLIENT =  AmazonSNSClientBuilder
+			.standard()
+			.withCredentials(new EnvironmentVariableCredentialsProvider())
+			.withRegion(AWSParams.REGION)
+			.build();
 	
 	/**
 	 * Serves only to suppress the default constructor

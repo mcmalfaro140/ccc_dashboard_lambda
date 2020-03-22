@@ -14,13 +14,13 @@ public class HomeController {
 
     @RequestMapping("/")
     public String hello() {
-    	//MDC.put("testKey", "testValue");
+    	MDC.put("testKey", "testValue");
         logger.error("An error message");
         logger.warn("A warning message");
         logger.info("An information message");
         logger.debug("A debugging message");
         logger.trace("A message for more detailed debugging");
-        //MDC.remove("testKey");
+        MDC.remove("testKey");
         
         return "Hello World in Spring Boot xxx";
     }

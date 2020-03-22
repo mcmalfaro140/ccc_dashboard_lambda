@@ -38,7 +38,7 @@ class LevelComparer {
 		
 		LogLevel levelOfLog = LogLevel.valueOf(level);
 		
-		switch (logLevelCriteria.getCriteria()) {
+		switch (logLevelCriteria.getComparison()) {
 		case "==":
 			return levelOfLog.equals(levelOfThreshold);
 		case ">":

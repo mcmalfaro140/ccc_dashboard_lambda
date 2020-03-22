@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ccc</groupId>
   <artifactId>logs.notifications</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <description>The AWS Lambda function responsible for sending notifications regarding logs</description>
   <build>
     <plugins>
@@ -57,14 +57,15 @@
     </dependencies>
   </dependencyManagement>
   <properties>
-    <java.version>1.8</java.version>
     <aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
-    <aws-java-sdk-bom.version>1.11.747</aws-java-sdk-bom.version>
-    <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
-    <jackson.version>2.10.3</jackson.version>
-    <maven-shade-plugin.version>3.0.0</maven-shade-plugin.version>
-    <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
     <junit.version>4.12</junit.version>
+    <java.version>1.8</java.version>
+    <maven-shade-plugin.version>3.0.0</maven-shade-plugin.version>
+    <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
+    <aws-lambda-java-events.version>2.2.7</aws-lambda-java-events.version>
+    <aws-java-sdk-bom.version>1.11.747</aws-java-sdk-bom.version>
+    <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
+    <jackson.version>2.10.3</jackson.version>
   </properties>
 </project>
 

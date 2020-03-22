@@ -41,19 +41,19 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 	 */
 	public List<LogAlarmData> getLogAlarms(String logGroup) {
 		String sql = 
-				"SELECT LA.LogAlarmId, LLC.LogLevelCriteriaId, LLC.LogLevel, LLC.Criteria, " +
+				"SELECT LA.LogAlarmId, LLC.LogLevelCriteriaId, LLC.LogLevel, LLC.Comparison, XRLAK.Relationship, " +
 				"GROUP_CONCAT(DISTINCT ST.SNSTopicId) AS SNSTopicIds, " +
 				"GROUP_CONCAT(DISTINCT ST.TopicArn) AS TopicArns, " +
 				"GROUP_CONCAT(DISTINCT K.Word) AS Keywords " +
 				"FROM LogAlarms LA " +
-				"NATURAL JOIN XRefLogAlarmLogGroup " +
-				"NATURAL JOIN LogGroups LG " +
-				"NATURAL JOIN LogLevelCriteria LLC " +
-				"NATURAL JOIN XRefLogAlarmSNSTopic " +
-				"NATURAL JOIN SNSTopics ST " +
-				"NATURAL JOIN XRefLogAlarmKeyword " +
-				"NATURAL JOIN Keywords K " +
-				"WHERE LG.Name = ?";
+				"INNER JOIN XRefLogAlarmLogGroup XRLALG ON LA.LogAlarmId = XRLALG.LogAlarmId " +
+				"INNER JOIN LogGroups LG ON XRLALG.LogGroupId = LG.LogGroupId " +
+				"INNER JOIN LogLevelCriteria LLC ON LA.LogLevelCriteriaId = LLC.LogLevelCriteriaId " +
+				"INNER JOIN XRefLogAlarmSNSTopic XRLAST ON LA.LogAlarmId = XRLAST.LogAlarmId " +
+				"INNER JOIN SNSTopics ST ON XRLAST.SNSTopicId = ST.SNSTopicId " +
+				"INNER JOIN XRefLogAlarmKeyword XRLAK ON LA.LogAlarmId = XRLAK.LogAlarmId " +
+				"INNER JOIN Keywords K ON XRLAK.KeywordId = K.KeywordId " +
+				"WHERE LG.Name = ?;";
 		
 		try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
 			stmt.setString(1, logGroup);

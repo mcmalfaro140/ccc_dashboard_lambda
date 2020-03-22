@@ -30,7 +30,7 @@ class LogLevelCriteriaData {
 	 * Possible values are "==",
 	 * ">", ">="
 	 */
-	private String criteria;
+	private String comparison;
 	
 	/**
 	 * Constructs an object that
@@ -50,10 +50,10 @@ class LogLevelCriteriaData {
 	 * Possible values are "==",
 	 * ">", ">="
 	 */
-	public LogLevelCriteriaData(int logLevelCriteriaId, String logLevel, String criteria) {
+	public LogLevelCriteriaData(int logLevelCriteriaId, String logLevel, String comparison) {
 		this.logLevelCriteriaId = logLevelCriteriaId;
 		this.logLevel = logLevel;
-		this.criteria = criteria;
+		this.comparison = comparison;
 	}
 	
 	/**
@@ -89,8 +89,8 @@ class LogLevelCriteriaData {
 	 * compared to the level of any
 	 * given log
 	 */
-	public String getCriteria() {
-		return this.criteria;
+	public String getComparison() {
+		return this.comparison;
 	}
 	
 	/**

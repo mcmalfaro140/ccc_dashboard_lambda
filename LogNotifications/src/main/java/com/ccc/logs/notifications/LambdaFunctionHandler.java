@@ -23,9 +23,20 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
 	 */
     @Override
     public String handleRequest(Object input, Context context) {
-    	LogData logData = LogParser.parse(input);
-    	List<LogAlarmData> logAlarmList = this._getLogAlarms(logData);
-    	this._handleLogEvents(logData, logAlarmList, context.getLogger());
+    	LambdaLogger logger = context.getLogger();
+    	
+    	try {
+    		LogData logData = LogParser.parse(input);
+        	List<LogAlarmData> logAlarmList = this._getLogAlarms(logData);
+        	this._handleLogEvents(logData, logAlarmList, logger);
+    	} catch (Throwable e) {
+    		String stackTrace = this._getStackTraceAsString(e);
+    		
+    		logger.log(stackTrace);
+    		AmazonSNSWrapper.publishToSNS(AWSParams.EXCEPTION_SNS_TOPIC_ARN, stackTrace);
+    		
+    		throw e;
+    	}
     	
     	return "";
     }
@@ -87,6 +98,17 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
      */
     private boolean _checkAlarm(LogMessage logMessage, LogAlarmData logAlarm) {
     	return LevelComparer.compare(logMessage.getLevel(), logAlarm.getLogLevelCriteriaData()) &&
-    			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordList());
+    			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordData());
+    }
+    
+    private String _getStackTraceAsString(Throwable e) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for (StackTraceElement elem : e.getStackTrace()) {
+    		sb.append(elem);
+    		sb.append('\n');
+    	}
+    	
+    	return sb.toString();
     }
 }
