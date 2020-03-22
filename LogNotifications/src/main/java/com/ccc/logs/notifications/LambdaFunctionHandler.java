@@ -17,7 +17,11 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
 	 * Starting point for the Lambda function
 	 * @param input The Base64 GZIP compressed
 	 * data on the log data associated with this
-	 * invocation of the Lambda function
+	 * invocation of the Lambda function. If an
+	 * exception occurs at any point while this
+	 * Lambda function is running, this function
+	 * will catch it and send some notifications
+	 * indicating the exception happened
 	 * @param context The Lambda execution environment context object
 	 * @return Empty string
 	 */
@@ -37,6 +41,8 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     		
     		throw e;
     	}
+    	
+    	this._logInvocationData(logger, context);
     	
     	return "";
     }
@@ -101,6 +107,13 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordData());
     }
     
+    /**
+     * Converts the stack trace of a <tt>Throwable</tt> object
+     * to a string. Called whenever any
+     * @param e The exception that occurred
+     * @return A string representation of the stack trace of
+     * the exception that occurred
+     */
     private String _getStackTraceAsString(Throwable e) {
     	StringBuilder sb = new StringBuilder();
     	
@@ -110,5 +123,11 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     	}
     	
     	return sb.toString();
+    }
+    
+    private void _logInvocationData(LambdaLogger logger, Context context) {
+    	logger.log("Function: " + context.getFunctionName());
+    	logger.log("Max memory allocated in MB: " + context.getMemoryLimitInMB());
+    	logger.log("Time remaining in milliseconds: " + context.getRemainingTimeInMillis());
     }
 }
