@@ -1,5 +1,7 @@
 package com.ccc.logs.notifications;
 
+import com.amazonaws.SDKGlobalConfiguration;
+
 /**
  * Holds certain variables needed to connecting to
  * the database and configuring the clients for
@@ -10,6 +12,13 @@ package com.ccc.logs.notifications;
  * all AWS accounts
  */
 class AWSParams {
+	/**
+	 * The region of the AWS account running the Lambda
+	 * function. Will automatically be set in the Lambda
+	 * function's environment variables
+	 */
+	public static final String REGION = System.getenv(SDKGlobalConfiguration.AWS_REGION_ENV_VAR);
+	
 	/**
 	 * URL of the database that contains user information
 	 * and data on the log alarms. This value must be entered

@@ -29,8 +29,13 @@ class LogAlarmDataMapper {
 		List<LogAlarmData> logAlarmList = new LinkedList<LogAlarmData>();
 		
 		try {
-			while (set.next()) {
+			while (set.next()) {				
 				int logAlarmId = set.getInt("LogAlarmId");
+				
+				if (0 == logAlarmId) {
+					return logAlarmList;
+				}
+				
 				KeywordData keywordData = LogAlarmDataMapper._extractKeywordList(set);
 				SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
 				LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);

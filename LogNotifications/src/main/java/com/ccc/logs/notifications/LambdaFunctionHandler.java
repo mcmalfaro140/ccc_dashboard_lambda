@@ -1,5 +1,7 @@
 package com.ccc.logs.notifications;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -33,16 +35,16 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     		LogData logData = LogParser.parse(input);
         	List<LogAlarmData> logAlarmList = this._getLogAlarms(logData);
         	this._handleLogEvents(logData, logAlarmList, logger);
-    	} catch (Throwable e) {
+    	} catch (RuntimeException e) {
     		String stackTrace = this._getStackTraceAsString(e);
     		
     		logger.log(stackTrace);
     		AmazonSNSWrapper.publishToSNS(AWSParams.EXCEPTION_SNS_TOPIC_ARN, stackTrace);
     		
     		throw e;
+    	} finally {
+    		this._logInvocationData(logger, context);
     	}
-    	
-    	this._logInvocationData(logger, context);
     	
     	return "";
     }
@@ -115,14 +117,12 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
      * the exception that occurred
      */
     private String _getStackTraceAsString(Throwable e) {
-    	StringBuilder sb = new StringBuilder();
+    	StringWriter sw = new StringWriter();
+    	PrintWriter pw = new PrintWriter(sw);
     	
-    	for (StackTraceElement elem : e.getStackTrace()) {
-    		sb.append(elem);
-    		sb.append('\n');
-    	}
+    	e.printStackTrace(pw);
     	
-    	return sb.toString();
+    	return sw.toString();
     }
     
     /**

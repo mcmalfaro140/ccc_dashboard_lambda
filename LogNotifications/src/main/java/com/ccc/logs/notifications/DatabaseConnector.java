@@ -53,7 +53,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 				"INNER JOIN SNSTopics ST ON XRLAST.SNSTopicId = ST.SNSTopicId " +
 				"INNER JOIN XRefLogAlarmKeyword XRLAK ON LA.LogAlarmId = XRLAK.LogAlarmId " +
 				"INNER JOIN Keywords K ON XRLAK.KeywordId = K.KeywordId " +
-				"WHERE LG.Name = ?;";
+				"WHERE LG.Name = ? AND LA.LogAlarmId IS NOT NULL;";
 		
 		try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
 			stmt.setString(1, logGroup);

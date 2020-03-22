@@ -9,17 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
-
     Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @RequestMapping("/")
     public String hello() {
     	MDC.put("testKey", "testValue");
-        logger.error("message0");
-        logger.warn("message1");
-        logger.info("message2");
-        logger.debug("message3");
-        logger.trace("message4");
+        this.logger.error("message0");
+        this.logger.warn("message1");
+        this.logger.info("message2");
+        this.logger.debug("message3");
+        this.logger.trace("message4");
         MDC.remove("testKey");
         
         return "Hello World in Spring Boot xxx";
