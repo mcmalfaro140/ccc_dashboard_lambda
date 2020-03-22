@@ -13,6 +13,12 @@ import com.amazonaws.SDKGlobalConfiguration;
  */
 class AWSParams {
 	/**
+	 * Suppresses default constructor
+	 */
+	private AWSParams() {
+	}
+	
+	/**
 	 * The region of the AWS account running the Lambda
 	 * function. Will automatically be set in the Lambda
 	 * function's environment variables
