@@ -35,7 +35,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
     		LogData logData = LogParser.parse(input);
         	List<LogAlarmData> logAlarmList = this._getLogAlarms(logData);
         	this._handleLogEvents(logData, logAlarmList, logger);
-    	} catch (RuntimeException e) {
+    	} catch (Throwable e) {
     		String stackTrace = this._getStackTraceAsString(e);
     		
     		logger.log(stackTrace);
