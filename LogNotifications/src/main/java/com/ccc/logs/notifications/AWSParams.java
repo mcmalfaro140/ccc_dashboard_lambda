@@ -35,11 +35,9 @@ class AWSParams {
 	public static final String DATABASE_PASSWORD = System.getenv("DATABASE_PASSWORD");
 	
 	/**
-	 * The region of the AWS account that runs the Lambda
-	 * function. This value is stored by default into
-	 * the Lambda function's environment variables
+	 * If any exceptions occur during the execution of
+	 * this Lambda function, A message will be send to
+	 * this Amazon SNS Topic
 	 */
-	public static final String REGION = System.getenv("AWS_REGION");
-	
 	public static final String EXCEPTION_SNS_TOPIC_ARN = System.getenv("EXCEPTION_SNS_TOPIC_ARN");
 }
