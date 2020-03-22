@@ -59,9 +59,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 			stmt.setString(1, logGroup);
 			
 			try (ResultSet set = stmt.executeQuery()) {
-				List<LogAlarmData> logAlarmList = LogAlarmDataMapper.mapResultSetToLogAlarmData(set);
-				
-				return logAlarmList;
+				return LogAlarmDataMapper.mapResultSetToLogAlarmData(set);
 			}
 		} catch (SQLException ex) {
 			throw new InternalError("Error while querying database", ex);
