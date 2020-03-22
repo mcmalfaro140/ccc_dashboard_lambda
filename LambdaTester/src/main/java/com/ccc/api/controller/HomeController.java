@@ -15,11 +15,11 @@ public class HomeController {
     @RequestMapping("/")
     public String hello() {
     	MDC.put("testKey", "testValue");
-        logger.error("An error message");
-        logger.warn("A warning message");
-        logger.info("An information message");
-        logger.debug("A debugging message");
-        logger.trace("A message for more detailed debugging");
+        logger.error("message0");
+        logger.warn("message1");
+        logger.info("message2");
+        logger.debug("message3");
+        logger.trace("message4");
         MDC.remove("testKey");
         
         return "Hello World in Spring Boot xxx";
