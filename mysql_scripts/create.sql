@@ -95,18 +95,3 @@ CREATE TABLE XRefLogAlarmSNSTopic (
 	FOREIGN KEY (SNSTopicId) REFERENCES SNSTopics(SNSTopicId),
 	UNIQUE (LogAlarmId, SNSTopicId)
 );
-
-
-SELECT LA.LogAlarmId, LLC.LogLevelCriteriaId, LLC.LogLevel, LLC.Comparison, XRLAK.Relationship,
-GROUP_CONCAT(DISTINCT ST.SNSTopicId) AS SNSTopicIds,
-GROUP_CONCAT(DISTINCT ST.TopicArn) AS TopicArns,
-GROUP_CONCAT(DISTINCT K.Word) AS Keywords
-FROM LogAlarms LA
-INNER JOIN XRefLogAlarmLogGroup XRLALG ON LA.LogAlarmId = XRLALG.LogAlarmId
-INNER JOIN LogGroups LG ON XRLALG.LogGroupId = LG.LogGroupId
-INNER JOIN LogLevelCriteria LLC ON LA.LogLevelCriteriaId = LLC.LogLevelCriteriaId
-INNER JOIN XRefLogAlarmSNSTopic XRLAST ON LA.LogAlarmId = XRLAST.LogAlarmId
-INNER JOIN SNSTopics ST ON XRLAST.SNSTopicId = ST.SNSTopicId
-INNER JOIN XRefLogAlarmKeyword XRLAK ON LA.LogAlarmId = XRLAK.LogAlarmId
-INNER JOIN Keywords K ON XRLAK.KeywordId = K.KeywordId
-WHERE LG.Name = 'test';
