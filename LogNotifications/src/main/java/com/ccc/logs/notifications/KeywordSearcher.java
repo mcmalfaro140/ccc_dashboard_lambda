@@ -31,7 +31,7 @@ class KeywordSearcher {
 			case "OR":
 				return KeywordSearcher._orSearch(message, keywordData.getWordList());
 			default:
-				throw new InternalError("Invalid value for keyword relationship");
+				throw new LogNotificationException("Invalid value for keyword relationship");
 			}
 		}
 	}

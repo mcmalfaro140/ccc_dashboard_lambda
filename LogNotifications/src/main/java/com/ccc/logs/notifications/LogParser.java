@@ -62,7 +62,7 @@ class LogParser {
 				}
 			}
 		} catch (IOException e) {
-			throw new InternalError("Failed to decompress content", e);
+			throw new LogNotificationException("Failed to decompress content", e);
 		}
 	}
 }

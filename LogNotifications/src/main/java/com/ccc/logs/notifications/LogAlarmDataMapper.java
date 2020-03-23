@@ -45,7 +45,7 @@ class LogAlarmDataMapper {
 			
 			return logAlarmList;
 		} catch (SQLException ex) {
-			throw new InternalError("Error while iterating through ResultSet of data on log alarms", ex);
+			throw new LogNotificationException("Error while iterating through ResultSet of data on log alarms", ex);
 		}
 	}
 	

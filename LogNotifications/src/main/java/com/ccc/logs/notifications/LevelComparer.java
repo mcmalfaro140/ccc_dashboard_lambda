@@ -41,7 +41,7 @@ class LevelComparer {
 		case ">=":
 			return levelOfLog.ordinal() >= levelOfThreshold.ordinal();
 		default:
-			throw new InternalError("Error in log level criteria data");
+			throw new LogNotificationException("Error in log level criteria data");
 		}
 	}
 }

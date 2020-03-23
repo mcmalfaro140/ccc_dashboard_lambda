@@ -23,7 +23,7 @@ class JsonConverter {
 	
 	/**
 	 * Empty constructor. The "mapper" field of type
-	 * <tt>ObjectMapper</tt> may be configured here
+	 * {@code ObjectMapper} may be configured here
 	 */
 	private JsonConverter() {
 	}
@@ -47,7 +47,7 @@ class JsonConverter {
 		try {
 			return this.mapper.writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
-			throw new InternalError("Error while converting object to JSON string", ex);
+			throw new LogNotificationException("Error while converting object to JSON string", ex);
 		}
 	}
 	
@@ -63,7 +63,7 @@ class JsonConverter {
 		try {
 			return this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
-			throw new InternalError("Error while converting object to pretty JSON string", ex);
+			throw new LogNotificationException("Error while converting object to pretty JSON string", ex);
 		}
 	}
 	
@@ -82,7 +82,7 @@ class JsonConverter {
 		try {
 			return this.mapper.readValue(json, type);
 		} catch (IOException ex) {
-			throw new InternalError("Error while parsing JSON log data", ex);
+			throw new LogNotificationException("Error while parsing JSON log data", ex);
 		}
 	}
 }

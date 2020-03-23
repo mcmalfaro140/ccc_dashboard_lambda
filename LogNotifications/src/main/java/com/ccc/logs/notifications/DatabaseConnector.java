@@ -27,7 +27,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 			Class.forName("com.mysql.cj.jdbc.Driver");
         	this.conn = DriverManager.getConnection(AWSParams.DATABASE_URL, AWSParams.DATABASE_USERNAME, AWSParams.DATABASE_PASSWORD);
 		} catch (SQLException|ClassNotFoundException ex) {
-			throw new InternalError("Error while connecting to database", ex);
+			throw new LogNotificationException("Error while connecting to database", ex);
 		}
 	}
 	
@@ -62,7 +62,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 				return LogAlarmDataMapper.mapResultSetToLogAlarmData(set);
 			}
 		} catch (SQLException ex) {
-			throw new InternalError("Error while querying database", ex);
+			throw new LogNotificationException("Error while querying database", ex);
 		}
 	}
 	
@@ -75,7 +75,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 		try {
 			this.conn.close();
 		} catch (SQLException ex) {
-			throw new InternalError("Error while closing connection to database");
+			throw new LogNotificationException("Error while closing connection to database");
 		}
 	}
 }
