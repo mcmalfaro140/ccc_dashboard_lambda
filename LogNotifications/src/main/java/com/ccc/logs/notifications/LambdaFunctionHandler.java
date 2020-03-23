@@ -40,7 +40,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     	} catch (Throwable e) {
     		String stackTrace = this._getStackTraceAsString(e);
     		
-    		logger.log("An exception occurred. Some messages may not have been sent");
+    		logger.log("An exception occurred. Some messages may not have been sent\n");
     		logger.log(stackTrace);
     		AmazonSNSWrapper.publishToSNS(AWSParams.EXCEPTION_SNS_TOPIC_ARN, stackTrace);
     		
