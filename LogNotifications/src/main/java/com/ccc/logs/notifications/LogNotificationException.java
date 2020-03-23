@@ -4,7 +4,8 @@ package com.ccc.logs.notifications;
  * Exception indicating that some exception occurred
  * within this Lambda function. This exception will be
  * be at the top of the stack trace whenever an exception
- * occurs in this lambda function
+ * that is either a checked exception or exception that
+ * is the fault of this Lambda function occurs
  */
 class LogNotificationException extends RuntimeException {
 	/**
