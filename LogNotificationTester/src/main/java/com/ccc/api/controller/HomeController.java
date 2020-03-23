@@ -21,7 +21,7 @@ public class HomeController {
     
     /**
      * URL endpoint that logs to AWS CloudWatch
-     * Go to "localhost:5050/" to do logging
+     * Run the app and go to "localhost:5050/" to do logging
      * @return An arbitrary string. Its value
      * does not matter
      */

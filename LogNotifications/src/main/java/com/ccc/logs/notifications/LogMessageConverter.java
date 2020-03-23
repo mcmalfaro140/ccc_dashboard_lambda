@@ -19,6 +19,6 @@ class LogMessageConverter extends StdConverter<String, LogMessage> {
 	 */
 	@Override
 	public LogMessage convert(String messageAsString) {
-		return JsonParser.instance().parse(messageAsString, LogMessage.class);
+		return JsonConverter.instance().parse(messageAsString, LogMessage.class);
 	}
 }

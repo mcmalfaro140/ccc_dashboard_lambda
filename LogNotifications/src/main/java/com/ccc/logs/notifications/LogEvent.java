@@ -1,6 +1,9 @@
 package com.ccc.logs.notifications;
 
+import java.time.ZonedDateTime;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Contains information on what data triggered
@@ -14,9 +17,11 @@ class LogEvent {
 	private String id;
 	
 	/**
-	 * The epoch time for this log event
+	 * The time that this log event occurred
 	 */
-	private long timestamp;
+	@JsonSerialize(using=TimestampSerializer.class)
+	@JsonDeserialize(using=TimestampAsLongDeserializer.class)
+	private ZonedDateTime timestamp;
 	
 	/**
 	 * The JSON formatted message that serves
@@ -37,12 +42,12 @@ class LogEvent {
 	}
 	
 	/**
-	 * Returns the epoch time for this log
-	 * event
-	 * @return The epoch time for this log
-	 * event
+	 * Returns the time this log event
+	 * occurred
+	 * @return The time this log event
+	 * occurred
 	 */
-	public long getTimestamp() {
+	public ZonedDateTime getTimestamp() {
 		return this.timestamp;
 	}
 	
@@ -65,6 +70,6 @@ class LogEvent {
 	 */
 	@Override
 	public String toString() {
-		return JsonParser.instance().prettyStringify(this);
+		return JsonConverter.instance().prettyStringify(this);
 	}
 }

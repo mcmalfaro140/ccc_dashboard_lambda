@@ -56,6 +56,6 @@ class SNSTopicData {
 	 */
 	@Override
 	public String toString() {
-		return JsonParser.instance().prettyStringify(this);
+		return JsonConverter.instance().prettyStringify(this);
 	}
 }

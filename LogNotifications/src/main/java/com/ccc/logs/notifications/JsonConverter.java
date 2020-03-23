@@ -9,11 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Singleton that converts POJOs to/from
  * JSON strings
  */
-class JsonParser {
+class JsonConverter {
 	/**
 	 * Singleton instance of this class
 	 */
-	private static final JsonParser INSTANCE = new JsonParser();
+	private static final JsonConverter INSTANCE = new JsonConverter();
 	
 	/**
 	 * The underlying object that actually does conversions
@@ -25,15 +25,15 @@ class JsonParser {
 	 * Empty constructor. The "mapper" field of type
 	 * <tt>ObjectMapper</tt> may be configured here
 	 */
-	private JsonParser() {
+	private JsonConverter() {
 	}
 	
 	/**
 	 * Global access point for the singleton instance
 	 * @return
 	 */
-	public static JsonParser instance() {
-		return JsonParser.INSTANCE;
+	public static JsonConverter instance() {
+		return JsonConverter.INSTANCE;
 	}
 	
 	/**

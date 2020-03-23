@@ -1,6 +1,10 @@
 package com.ccc.logs.notifications;
 
+import java.time.ZonedDateTime;
+
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * The message attached to a log event. All log messages are
@@ -9,10 +13,12 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 class LogMessage {
 	/**
-	 * The epoch time 
-	 * for this log message
+	 * The time that this log message
+	 * was made
 	 */
-	private String timestamp;
+	@JsonSerialize(using=TimestampSerializer.class)
+	@JsonDeserialize(using=TimestampAsStringDeserializer.class)
+	private ZonedDateTime timestamp;
 	
 	/**
 	 * The level for this
@@ -54,12 +60,12 @@ class LogMessage {
 	private JsonNode mdc;
 	
 	/**
-	 * Returns the epoch time for
-	 * this log message
-	 * @return The epoch time for
-	 * this log message
+	 * Returns the time this log
+	 * message was made
+	 * @return The time this log
+	 * message was made
 	 */
-	public String getTimestamp() {
+	public ZonedDateTime getTimestamp() {
 		return this.timestamp;
 	}
 	
@@ -136,6 +142,6 @@ class LogMessage {
 	 */
 	@Override
 	public String toString() {
-		return JsonParser.instance().prettyStringify(this);
+		return JsonConverter.instance().prettyStringify(this);
 	}
 }
