@@ -14,7 +14,7 @@ import com.amazonaws.services.sns.model.PublishResult;
  * this class stateless because it enables AWS Lambda to use the
  * same instance of this class whenever it needs to
  */
-public class LambdaFunctionHandler implements RequestHandler<Object, String> {
+public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
 	/**
 	 * Starting point for the Lambda function
 	 * @param input The Base64 GZIP compressed
@@ -28,24 +28,26 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
 	 * @return Empty string
 	 */
     @Override
-    public String handleRequest(Object input, Context context) {
+    public Integer handleRequest(Object input, Context context) {
     	LambdaLogger logger = context.getLogger();
     	
     	try {
     		LogData logData = LogParser.parse(input);
         	List<LogAlarmData> logAlarmList = this._getLogAlarms(logData);
         	this._handleLogEvents(logData, logAlarmList, logger);
+        	
+        	return 0;
     	} catch (Throwable e) {
     		String stackTrace = this._getStackTraceAsString(e);
     		
     		logger.log("An exception occurred. Some messages may not have been sent");
     		logger.log(stackTrace);
     		AmazonSNSWrapper.publishToSNS(AWSParams.EXCEPTION_SNS_TOPIC_ARN, stackTrace);
+    		
+    		return 1;
     	} finally {
     		this._logInvocationData(logger, context);
     	}
-    	
-    	return "";
     }
     
     /**
