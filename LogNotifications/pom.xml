@@ -16,13 +16,13 @@
 		<maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
 		<maven-shade-plugin.version>3.0.0</maven-shade-plugin.version>
 		<junit.version>4.12</junit.version>
-		<jackson-databind.version>2.10.3</jackson-databind.version>
 		<mysql-connector-java.version>8.0.19</mysql-connector-java.version>
 		<aws-java-sdk-bom.version>1.11.747</aws-java-sdk-bom.version>
 		<aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
 		<aws-lambda-java-events.version>2.2.7</aws-lambda-java-events.version>
 		<org.eclipse.jdt.annotation.version>2.2.400</org.eclipse.jdt.annotation.version>
 		<findbugs-maven-plugin.version>3.0.0</findbugs-maven-plugin.version>
+		<tycho-compiler-jdt.version>1.0.0</tycho-compiler-jdt.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -49,7 +49,7 @@
 	    			<dependency>
 	       				<groupId>org.eclipse.tycho</groupId>
 	       				<artifactId>tycho-compiler-jdt</artifactId>
-	       				<version>1.0.0</version>
+	       				<version>${tycho-compiler-jdt.version}</version>
 	    			</dependency>
 	  			</dependencies>
 			</plugin>
@@ -126,11 +126,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson-databind.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.eclipse.jdt</groupId>
