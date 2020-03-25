@@ -7,7 +7,7 @@
 
 	<groupId>com.ccc</groupId>
 	<artifactId>logs.notifications</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<packaging>jar</packaging>
 	<description>The AWS Lambda function responsible for sending notifications regarding logs</description>
   
