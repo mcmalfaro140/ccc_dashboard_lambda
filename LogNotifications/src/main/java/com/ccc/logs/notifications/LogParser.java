@@ -48,8 +48,8 @@ class LogParser {
 		byte[] decodedBytes = Base64.getDecoder().decode(compressed);
 		
 		try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodedBytes)) {
-			try (GZIPInputStream compressorInputStream = new GZIPInputStream(byteArrayInputStream)) {
-				try (InputStreamReader inputStreamReader = new InputStreamReader(compressorInputStream, StandardCharsets.US_ASCII)) {
+			try (GZIPInputStream gzipInputStream = new GZIPInputStream(byteArrayInputStream)) {
+				try (InputStreamReader inputStreamReader = new InputStreamReader(gzipInputStream, StandardCharsets.US_ASCII)) {
 					try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
 						StringBuilder output = new StringBuilder();
 						

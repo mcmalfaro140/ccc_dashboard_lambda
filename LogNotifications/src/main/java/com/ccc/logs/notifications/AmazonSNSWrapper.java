@@ -14,7 +14,7 @@ class AmazonSNSWrapper {
 	/**
 	 * The Amazon SNS client object
 	 */
-	private static final AmazonSNS SNS_CLIENT =  AmazonSNSClientBuilder
+	private static final AmazonSNS SNS_CLIENT = AmazonSNSClientBuilder
 			.standard()
 			.withCredentials(new EnvironmentVariableCredentialsProvider())
 			.withRegion(AWSParams.REGION)
@@ -34,7 +34,8 @@ class AmazonSNSWrapper {
 	 */
 	public static PublishResult publishToSNS(String snsTopicArn, String message) {
 		PublishRequest request = new PublishRequest(snsTopicArn, message);
+		PublishResult result = AmazonSNSWrapper.SNS_CLIENT.publish(request);
 		
-		return AmazonSNSWrapper.SNS_CLIENT.publish(request);
+		return result;
 	}
 }

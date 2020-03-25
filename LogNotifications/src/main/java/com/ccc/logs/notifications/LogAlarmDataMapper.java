@@ -36,7 +36,7 @@ class LogAlarmDataMapper {
 					return logAlarmList;
 				}
 				
-				KeywordData keywordData = LogAlarmDataMapper._extractKeywordList(set);
+				KeywordDataList keywordData = LogAlarmDataMapper._extractKeywordList(set);
 				SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
 				LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);
 				
@@ -60,11 +60,26 @@ class LogAlarmDataMapper {
 	 * @throws SQLException Thrown if there is an exception
 	 * extracting the keywords from the <tt>ResultSet</tt>
 	 */
-	private static KeywordData _extractKeywordList(ResultSet set) throws SQLException {
+	private static KeywordDataList _extractKeywordList(ResultSet set) throws SQLException {
+		String keywordIds = set.getString("KeywordIds");
 		String keywords = set.getString("Keywords");
 		String relationship = set.getString("Relationship");
 		
-		return (null == keywords) ? null : new KeywordData(keywords.split(","), relationship);
+		if (null == keywords) {
+			return null;
+		}
+		else {
+			int[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
+			String[] keywordList = keywords.split(",");
+			
+			List<KeywordData> keywordData = new LinkedList<KeywordData>();
+			
+			for (int index = 0; index < keywordList.length; ++index) {
+				keywordData.add(new KeywordData(keywordIdList[index], keywordList[index]));
+			}
+			
+			return new KeywordDataList(keywordData, relationship);
+		}
 	}
 	
 	/**
@@ -96,8 +111,8 @@ class LogAlarmDataMapper {
 	 * the SQL IDs of Amazon SNS Topics listed in the
 	 * "snsTopicIds" parameter
 	 */
-	private static int[] _makeArrayOfIds(String snsTopicIds) {
-		String[] stringArray = snsTopicIds.split(",");
+	private static int[] _makeArrayOfIds(String str) {
+		String[] stringArray = str.split(",");
 		int[] intArray = new int[stringArray.length];
 		
 		for (int index = 0; index < stringArray.length; ++index) {

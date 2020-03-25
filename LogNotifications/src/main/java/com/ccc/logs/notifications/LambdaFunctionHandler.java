@@ -3,6 +3,7 @@ package com.ccc.logs.notifications;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Objects;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
@@ -30,11 +31,16 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     @Override
     public Integer handleRequest(Object input, Context context) {
     	LambdaLogger logger = context.getLogger();
+    	LogData logData = null;
+    	List<LogAlarmData> logAlarmList = null;
     	
     	try {
-    		LogData logData = LogParser.parse(input);
-        	List<LogAlarmData> logAlarmList = this._getLogAlarms(logData);
-        	this._handleLogEvents(logData, logAlarmList, logger);
+    		logData = LogParser.parse(input);
+        	logAlarmList = this._getLogAlarms(logData);
+        	
+        	if (logAlarmList.size() != 0) {
+        		this._handleLogEvents(logData, logAlarmList, logger);
+        	}
         	
         	return 0;
     	} catch (Throwable e) {
@@ -46,7 +52,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     		
     		return 1;
     	} finally {
-    		this._logInvocationData(logger, context);
+    		this._logInvocationData(logger, context, logData, logAlarmList);
     	}
     }
     
@@ -93,8 +99,6 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
 				}
 			}
 		}
-    	
-    	logger.log(logData.toString());
     }
     
     /**
@@ -107,7 +111,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      */
     private boolean _checkAlarm(LogMessage logMessage, LogAlarmData logAlarm) {
     	return LevelComparer.compare(logMessage.getLevel(), logAlarm.getLogLevelCriteriaData()) &&
-    			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordData());
+    			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordDataList());
     }
     
     /**
@@ -131,9 +135,11 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      * @param logger The logger that logs to AWS CloudWatch
      * @param context The context object
      */
-    private void _logInvocationData(LambdaLogger logger, Context context) {
+    private void _logInvocationData(LambdaLogger logger, Context context, LogData logData, List<LogAlarmData> logAlarmList) {
     	logger.log("Function: " + context.getFunctionName());
     	logger.log("Max memory allocated in MB: " + context.getMemoryLimitInMB());
     	logger.log("Time remaining in milliseconds: " + context.getRemainingTimeInMillis());
+    	logger.log(Objects.toString(logData));
+    	logger.log(Objects.toString(logAlarmList));
     }
 }

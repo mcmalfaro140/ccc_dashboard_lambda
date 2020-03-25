@@ -23,7 +23,7 @@ class LogAlarmData {
 	 * The data on what keywords should be searched for and
 	 * whether or not all or none need to be found
 	 */
-	private KeywordData keywordData;
+	private KeywordDataList keywordDataList;
 	
 	/**
 	 * The criteria that a given log's level must meet to
@@ -46,12 +46,12 @@ class LogAlarmData {
 	public LogAlarmData(
 			int logAlarmId,
 			SNSTopicData[] snsTopicDataList,
-			KeywordData keywordData,
+			KeywordDataList keywordDataList,
 			LogLevelCriteriaData logLevelCriteriaData
 	) {
 		this.logAlarmId = logAlarmId;
 		this.snsTopicDataList = snsTopicDataList;
-		this.keywordData = keywordData;
+		this.keywordDataList = keywordDataList;
 		this.logLevelCriteriaData = logLevelCriteriaData;
 	}
 	
@@ -81,8 +81,8 @@ class LogAlarmData {
 	 * determining whether or not a given log should
 	 * trigger this log alarm
 	 */
-	public KeywordData getKeywordData() {
-		return this.keywordData;
+	public KeywordDataList getKeywordDataList() {
+		return this.keywordDataList;
 	}
 	
 	/**

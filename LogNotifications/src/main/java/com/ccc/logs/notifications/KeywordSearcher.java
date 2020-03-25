@@ -1,5 +1,7 @@
 package com.ccc.logs.notifications;
 
+import java.util.List;
+
 /**
  * Class container for function that searches
  * a log message for certain keywords
@@ -20,16 +22,16 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if the logs meets all of the criteria
 	 * specified in the keyword data, <tt>false</tt> otherwise
 	 */
-	public static boolean search(String message, KeywordData keywordData) {
-		if (null == keywordData) {
+	public static boolean search(String message, KeywordDataList keywordDataList) {
+		if (null == keywordDataList) {
 			return true;
 		}
 		else {
-			switch (keywordData.getRelationship()) {
+			switch (keywordDataList.getRelationship()) {
 			case "AND":
-				return KeywordSearcher._andSearch(message, keywordData.getWordList());
+				return KeywordSearcher._andSearch(message, keywordDataList.getKeywordList());
 			case "OR":
-				return KeywordSearcher._orSearch(message, keywordData.getWordList());
+				return KeywordSearcher._orSearch(message, keywordDataList.getKeywordList());
 			default:
 				throw new LogNotificationException("Invalid value for keyword relationship");
 			}
@@ -43,9 +45,9 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if all keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _andSearch(String message, String[] keywordList) {
-		for (String keyword : keywordList) {
-			if (!KeywordSearcher._containsIgnoreCase(message, keyword)) {
+	private static boolean _andSearch(String message, List<KeywordData> keywordList) {
+		for (KeywordData keyword : keywordList) {
+			if (!KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
 				return false;
 			}
 		}
@@ -60,9 +62,9 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if any keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _orSearch(String message, String[] keywordList) {
-		for (String keyword : keywordList) {
-			if (KeywordSearcher._containsIgnoreCase(message, keyword)) {
+	private static boolean _orSearch(String message, List<KeywordData> keywordList) {
+		for (KeywordData keyword : keywordList) {
+			if (KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
 				return true;
 			}
 		}
