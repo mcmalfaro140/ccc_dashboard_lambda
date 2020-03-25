@@ -1,4 +1,4 @@
-package com.ccc.api.controller;
+package com.ccc.log.notification.backend.controller;
 
 
 import org.slf4j.Logger;
