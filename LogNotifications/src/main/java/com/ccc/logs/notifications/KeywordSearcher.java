@@ -2,6 +2,8 @@ package com.ccc.logs.notifications;
 
 import java.util.LinkedList;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Class container for function that searches
  * a log message for certain keywords
@@ -22,7 +24,7 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if the logs meets all of the criteria
 	 * specified in the keyword data, <tt>false</tt> otherwise
 	 */
-	public static boolean search(String message, KeywordDataList keywordDataList) {
+	public static boolean search(String message, @Nullable KeywordDataList keywordDataList) {
 		if (null == keywordDataList) {
 			return true;
 		}

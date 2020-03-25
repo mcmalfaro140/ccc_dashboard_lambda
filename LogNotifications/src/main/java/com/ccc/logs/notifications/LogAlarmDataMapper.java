@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Class container for functions that convert a 
  * <tt>ResultSet</tt> to the <tt>LogAlarmData</tt> objects
@@ -35,7 +37,7 @@ class LogAlarmDataMapper {
 					return logAlarmList;
 				}
 				
-				KeywordDataList keywordData = LogAlarmDataMapper._extractKeywordList(set);
+				@Nullable KeywordDataList keywordData = LogAlarmDataMapper._extractKeywordList(set);
 				SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
 				LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);
 				
@@ -59,10 +61,10 @@ class LogAlarmDataMapper {
 	 * @throws SQLException Thrown if there is an exception
 	 * extracting the keywords from the <tt>ResultSet</tt>
 	 */
-	private static KeywordDataList _extractKeywordList(ResultSet set) throws SQLException {
+	private static @Nullable KeywordDataList _extractKeywordList(ResultSet set) throws SQLException {
 		String keywordIds = set.getString("KeywordIds");
-		String keywords = set.getString("Keywords");
-		String relationship = set.getString("Relationship");
+		@Nullable String keywords = set.getString("Keywords");
+		String relationship = set.getString("KeywordRelationship");
 		
 		if (null == keywords) {
 			return null;

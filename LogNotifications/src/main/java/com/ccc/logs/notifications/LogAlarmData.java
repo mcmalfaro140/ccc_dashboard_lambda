@@ -1,5 +1,7 @@
 package com.ccc.logs.notifications;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Contains only the necessary information needed to check
  * if a given log should trigger this alarm and the Amazon
@@ -23,6 +25,7 @@ class LogAlarmData {
 	 * The data on what keywords should be searched for and
 	 * whether or not all or none need to be found
 	 */
+	@Nullable
 	private KeywordDataList keywordDataList;
 	
 	/**
@@ -46,7 +49,7 @@ class LogAlarmData {
 	public LogAlarmData(
 			int logAlarmId,
 			SNSTopicData[] snsTopicDataList,
-			KeywordDataList keywordDataList,
+			@Nullable KeywordDataList keywordDataList,
 			LogLevelCriteriaData logLevelCriteriaData
 	) {
 		this.logAlarmId = logAlarmId;
@@ -81,7 +84,7 @@ class LogAlarmData {
 	 * determining whether or not a given log should
 	 * trigger this log alarm
 	 */
-	public KeywordDataList getKeywordDataList() {
+	public @Nullable KeywordDataList getKeywordDataList() {
 		return this.keywordDataList;
 	}
 	

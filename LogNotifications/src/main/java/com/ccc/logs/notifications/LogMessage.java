@@ -2,6 +2,8 @@ package com.ccc.logs.notifications;
 
 import java.time.ZonedDateTime;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -57,6 +59,7 @@ class LogMessage {
 	 * custom fields, then this value
 	 * is <tt>null</tt>
 	 */
+	@Nullable
 	private JsonNode mdc;
 	
 	/**
@@ -124,12 +127,12 @@ class LogMessage {
 	/**
 	 * Returns a JSON object that contains
 	 * any custom fields attached to this
-	 * log message
+	 * log message. Can be null
 	 * @return A JSON object that contains
 	 * any custom fields attached to this
-	 * log message
+	 * log message. Can be null
 	 */
-	public JsonNode getMDC() {
+	public @Nullable JsonNode getMDC() {
 		return this.mdc;
 	}
 	

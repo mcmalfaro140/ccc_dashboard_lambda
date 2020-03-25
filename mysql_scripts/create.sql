@@ -18,7 +18,6 @@ CREATE TABLE SNSTopics (
 	TopicName VARCHAR(50) NOT NULL,
 	TopicArn VARCHAR(255) NOT NULL,
 	PRIMARY KEY (SNSTopicId),
-	FOREIGN KEY (UserId) REFERENCES Users(UserId),
 	UNIQUE (TopicName),
 	UNIQUE (TopicArn)
 );
@@ -49,6 +48,7 @@ CREATE TABLE LogAlarms (
 	LogAlarmId INT NOT NULL AUTO_INCREMENT,
 	LogLevelCriteriaId INT NOT NULL,
 	AlarmName VARCHAR(255) NOT NULL,
+	KeywordRelationship VARCHAR(3) CHECK (KeywordRelationship IN ('AND', 'OR', NULL)),
 	PRIMARY KEY (LogAlarmId),
 	FOREIGN KEY (LogLevelCriteriaId) REFERENCES LogLevelCriteria(LogLevelCriteriaId),
 	UNIQUE (AlarmName)
@@ -77,8 +77,7 @@ CREATE TABLE XRefLogAlarmLogGroup (
 CREATE TABLE XRefLogAlarmKeyword (
 	LogAlarmKeywordId INT NOT NULL AUTO_INCREMENT,
 	LogAlarmId INT NOT NULL,
-	KeywordId INT NOT NULL,
-	Relationship VARCHAR(3) CHECK(Relationship IN ('AND', 'OR', NULL)), 
+	KeywordId INT NOT NULL, 
 	PRIMARY KEY (LogAlarmKeywordId),
 	FOREIGN KEY (LogAlarmId) REFERENCES LogAlarms(LogAlarmId),
 	FOREIGN KEY (KeywordId) REFERENCES Keywords(KeywordId),
