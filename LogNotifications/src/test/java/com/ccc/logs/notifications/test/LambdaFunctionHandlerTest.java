@@ -38,8 +38,6 @@ public class LambdaFunctionHandlerTest {
     private Context _createContext() {
         TestContext ctx = new TestContext();
 
-        ctx.setFunctionName("LogMessager");
-
         return ctx;
     }
 

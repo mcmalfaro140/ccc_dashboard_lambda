@@ -10,11 +10,24 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-compiler-jdt</artifactId>
+            <version>1.0.0</version>
+          </dependency>
+        </dependencies>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
           <encoding>UTF-8</encoding>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
+          <showWarnings>true</showWarnings>
+          <compilerId>jdt</compilerId>
+          <compilerArguments>
+            <annotationpath>CLASSPATH</annotationpath>
+          </compilerArguments>
+          <compilerArgument>-err:nullAnnot,null,-missingNullDefault</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
@@ -28,6 +41,22 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>${findbugs-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>run-findbugs-fornullchecks</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <visitors>InconsistentAnnotations,NoteUnconditionalParamDerefs,FindNullDeref,FindNullDerefsInvolvingNonShortCircuitEvaluation</visitors>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -58,6 +87,7 @@
   </dependencyManagement>
   <properties>
     <aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
+    <findbugs-maven-plugin.version>3.0.0</findbugs-maven-plugin.version>
     <junit.version>4.12</junit.version>
     <java.version>1.8</java.version>
     <maven-shade-plugin.version>3.0.0</maven-shade-plugin.version>

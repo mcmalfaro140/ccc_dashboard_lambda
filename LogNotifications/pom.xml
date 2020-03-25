@@ -22,6 +22,7 @@
 		<aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
 		<aws-lambda-java-events.version>2.2.7</aws-lambda-java-events.version>
 		<org.eclipse.jdt.annotation.version>2.2.400</org.eclipse.jdt.annotation.version>
+		<findbugs-maven-plugin.version>3.0.0</findbugs-maven-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -37,23 +38,52 @@
 					<target>${java.version}</target>
 					<encoding>UTF-8</encoding>
 					<forceJavacCompilerUse>true</forceJavacCompilerUse>
+					<showWarnings>true</showWarnings>
+	    			<compilerId>jdt</compilerId>
+	    			<compilerArguments>
+	      				<annotationpath>CLASSPATH</annotationpath>
+	    			</compilerArguments>
+	    			<compilerArgument>-err:nullAnnot,null,-missingNullDefault</compilerArgument>
 				</configuration>
-		</plugin>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-shade-plugin</artifactId>
-			<version>${maven-shade-plugin.version}</version>
-			<executions>
-				<execution>
-					<phase>package</phase>
-					<goals>
-						<goal>shade</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
-  </build>
+	 			<dependencies>
+	    			<dependency>
+	       				<groupId>org.eclipse.tycho</groupId>
+	       				<artifactId>tycho-compiler-jdt</artifactId>
+	       				<version>1.0.0</version>
+	    			</dependency>
+	  			</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>${maven-shade-plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${findbugs-maven-plugin.version}</version>
+				<configuration>
+					<visitors>InconsistentAnnotations,NoteUnconditionalParamDerefs,FindNullDeref,FindNullDerefsInvolvingNonShortCircuitEvaluation</visitors>
+				</configuration>
+				<executions>
+			  		<execution>
+			    		<id>run-findbugs-fornullchecks</id>
+			   				<goals>
+			     				<goal>check</goal>
+			     			</goals>
+			   		</execution>
+			 	</executions>
+			</plugin>
+		</plugins>
+  	</build>
 
 	<dependencyManagement>
 		<dependencies>
@@ -106,6 +136,6 @@
 		    <groupId>org.eclipse.jdt</groupId>
 		    <artifactId>org.eclipse.jdt.annotation</artifactId>
 		    <version>${org.eclipse.jdt.annotation.version}</version>
-</dependency>
+		</dependency>
 	</dependencies>
 </project>
