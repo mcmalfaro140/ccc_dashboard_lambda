@@ -64,23 +64,22 @@ class LogAlarmDataMapper {
 	private static @Nullable KeywordDataList _extractKeywordList(ResultSet set) throws SQLException {
 		String keywordIds = set.getString("KeywordIds");
 		@Nullable String keywords = set.getString("Keywords");
-		String relationship = set.getString("KeywordRelationship");
+		@Nullable String relationship = set.getString("KeywordRelationship");
 		
 		if (null == keywords) {
 			return null;
 		}
-		else {
-			int[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
-			String[] keywordList = keywords.split(",");
-			
-			LinkedList<KeywordData> keywordData = new LinkedList<KeywordData>();
-			
-			for (int index = 0; index < keywordList.length; ++index) {
-				keywordData.add(new KeywordData(keywordIdList[index], keywordList[index]));
-			}
-			
-			return new KeywordDataList(keywordData, relationship);
+		
+		int[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
+		String[] keywordList = keywords.split(",");
+		
+		LinkedList<KeywordData> keywordData = new LinkedList<KeywordData>();
+		
+		for (int index = 0; index < keywordList.length; ++index) {
+			keywordData.add(new KeywordData(keywordIdList[index], keywordList[index]));
 		}
+		
+		return new KeywordDataList(keywordData, relationship);
 	}
 	
 	/**
