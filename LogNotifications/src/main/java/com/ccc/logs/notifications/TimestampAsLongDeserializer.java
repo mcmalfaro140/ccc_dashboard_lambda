@@ -1,7 +1,7 @@
 package com.ccc.logs.notifications;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -41,7 +41,7 @@ class TimestampAsLongDeserializer extends StdDeserializer<ZonedDateTime> {
 	@Override
 	public ZonedDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
 		long epochTime = parser.getLongValue();
-		ZonedDateTime date = new Timestamp(epochTime).toLocalDateTime().atZone(ZoneId.systemDefault());
+		ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochTime), ZoneId.systemDefault());
 		
 		return date;
 	}

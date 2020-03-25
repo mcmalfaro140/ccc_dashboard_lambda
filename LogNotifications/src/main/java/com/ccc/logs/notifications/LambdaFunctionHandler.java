@@ -152,8 +152,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      */
     private void _logInvocationData(LambdaLogger logger, Context context, LogData logData, List<LogAlarmData> logAlarmList) {
     	String invocationData = String.format(
-    			"AWS Request Id: %s\nMax memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
-    			context.getAwsRequestId(),
+    			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
     			context.getMemoryLimitInMB(),
     			context.getRemainingTimeInMillis(),
     			Objects.toString(logData),
