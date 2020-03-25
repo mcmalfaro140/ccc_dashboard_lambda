@@ -67,12 +67,9 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      * Lambda function
      */
     private List<LogAlarmData> _getLogAlarms(LogData logData) {
-    	DatabaseConnector conn = new DatabaseConnector();
-    	List<LogAlarmData> logAlarmList = conn.getLogAlarms(logData.getLogGroup());
-    	
-    	conn.close();
-    	
-    	return logAlarmList;
+    	try (DatabaseConnector conn = new DatabaseConnector()) {
+    		return conn.getLogAlarms(logData.getLogGroup());
+    	}
     }
     
     /**
@@ -94,7 +91,8 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
 				if (this._checkAlarm(logMessage, logAlarm)) {
 					for (SNSTopicData snsTopicData : logAlarm.getSNSTopicDataList()) {
 						PublishResult result = AmazonSNSWrapper.publishToSNS(snsTopicData.getTopicArn(), logMessage.toString());
-						logger.log("Message Id: " + result.getMessageId());
+						
+						this._logPublishResult(logger, result);
 					}
 				}
 			}
@@ -115,6 +113,22 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     }
     
     /**
+     * Logs data on the SNS publish to CloudWatch
+     * @param logger The logger that logs to AWS CloudWatch
+     * @param result The result of the SNS publish to log
+     */
+    private void _logPublishResult(LambdaLogger logger, PublishResult result) {
+    	String publishResultData = String.format(
+    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d",
+    			result.getMessageId(),
+    			result.getSdkResponseMetadata().getRequestId(),
+    			result.getSdkHttpMetadata().getHttpStatusCode()
+    	);
+    	
+    	logger.log(publishResultData);
+    }
+    
+    /**
      * Converts the stack trace of a <tt>Throwable</tt> object
      * to a string. Called whenever any
      * @param e The exception that occurred
@@ -132,14 +146,20 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     
     /**
      * Logs data about this invocation of the Lambda function
+     * to CloudWatch
      * @param logger The logger that logs to AWS CloudWatch
      * @param context The context object
      */
     private void _logInvocationData(LambdaLogger logger, Context context, LogData logData, List<LogAlarmData> logAlarmList) {
-    	logger.log("Function: " + context.getFunctionName());
-    	logger.log("Max memory allocated in MB: " + context.getMemoryLimitInMB());
-    	logger.log("Time remaining in milliseconds: " + context.getRemainingTimeInMillis());
-    	logger.log(Objects.toString(logData));
-    	logger.log(Objects.toString(logAlarmList));
+    	String invocationData = String.format(
+    			"AWS Request Id: %s\nMax memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
+    			context.getAwsRequestId(),
+    			context.getMemoryLimitInMB(),
+    			context.getRemainingTimeInMillis(),
+    			Objects.toString(logData),
+    			Objects.toString(logAlarmList)
+    	);
+    	
+    	logger.log(invocationData);
     }
 }

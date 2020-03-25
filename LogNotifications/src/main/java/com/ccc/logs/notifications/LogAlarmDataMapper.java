@@ -3,7 +3,6 @@ package com.ccc.logs.notifications;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Class container for functions that convert a 
@@ -25,8 +24,8 @@ class LogAlarmDataMapper {
 	 * that corresponds to the log alarms listed
 	 * in the given <tt>ResultSet</tt>
 	 */
-	public static List<LogAlarmData> mapResultSetToLogAlarmData(ResultSet set) {
-		List<LogAlarmData> logAlarmList = new LinkedList<LogAlarmData>();
+	public static LinkedList<LogAlarmData> mapResultSetToLogAlarmData(ResultSet set) {
+		LinkedList<LogAlarmData> logAlarmList = new LinkedList<LogAlarmData>();
 		
 		try {
 			while (set.next()) {				
@@ -72,7 +71,7 @@ class LogAlarmDataMapper {
 			int[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
 			String[] keywordList = keywords.split(",");
 			
-			List<KeywordData> keywordData = new LinkedList<KeywordData>();
+			LinkedList<KeywordData> keywordData = new LinkedList<KeywordData>();
 			
 			for (int index = 0; index < keywordList.length; ++index) {
 				keywordData.add(new KeywordData(keywordIdList[index], keywordList[index]));

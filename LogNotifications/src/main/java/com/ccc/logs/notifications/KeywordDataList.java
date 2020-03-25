@@ -1,17 +1,17 @@
 package com.ccc.logs.notifications;
 
-import java.util.List;
+import java.util.LinkedList;
 
 public class KeywordDataList {
-	private List<KeywordData> keywordList;
+	private LinkedList<KeywordData> keywordList;
 	private String relationship;
 	
-	public KeywordDataList(List<KeywordData> keywordList, String relationship) {
+	public KeywordDataList(LinkedList<KeywordData> keywordList, String relationship) {
 		this.keywordList = keywordList;
 		this.relationship = relationship;
 	}
 	
-	public List<KeywordData> getKeywordList() {
+	public LinkedList<KeywordData> getKeywordList() {
 		return this.keywordList;
 	}
 	

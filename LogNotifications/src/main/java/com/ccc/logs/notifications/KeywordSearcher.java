@@ -1,6 +1,6 @@
 package com.ccc.logs.notifications;
 
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Class container for function that searches
@@ -45,7 +45,7 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if all keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _andSearch(String message, List<KeywordData> keywordList) {
+	private static boolean _andSearch(String message, LinkedList<KeywordData> keywordList) {
 		for (KeywordData keyword : keywordList) {
 			if (!KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
 				return false;
@@ -62,7 +62,7 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if any keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _orSearch(String message, List<KeywordData> keywordList) {
+	private static boolean _orSearch(String message, LinkedList<KeywordData> keywordList) {
 		for (KeywordData keyword : keywordList) {
 			if (KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
 				return true;

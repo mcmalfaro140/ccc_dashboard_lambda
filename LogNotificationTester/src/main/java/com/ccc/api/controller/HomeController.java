@@ -29,7 +29,7 @@ public class HomeController {
     public String hello() {
     	MDC.put("testKey", "testValue");
     	
-        for (int count = 0; count < 10; ++count) {
+        for (int count = 0; count < 5; ++count) {
         	this.logger.error("message0");
             this.logger.warn("message1");
             this.logger.info("message2");

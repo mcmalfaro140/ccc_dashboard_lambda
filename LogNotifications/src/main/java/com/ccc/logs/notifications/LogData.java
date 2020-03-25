@@ -1,5 +1,6 @@
 package com.ccc.logs.notifications;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ class LogData {
 	 * The list of log events being processed for this
 	 * invocation of this Lambda function
 	 */
-	private List<LogEvent> logEvents;
+	private LinkedList<LogEvent> logEvents;
 	
 	
 	/**

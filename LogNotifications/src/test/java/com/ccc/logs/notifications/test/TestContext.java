@@ -14,7 +14,7 @@ public class TestContext implements Context {
 
     private String awsRequestId = "EXAMPLE";
     private ClientContext clientContext;
-    private String functionName = "EXAMPLE";
+    private String functionName = "LogMessager";
     private CognitoIdentity identity;
     private String logGroupName = "EXAMPLE";
     private String logStreamName = "EXAMPLE";
