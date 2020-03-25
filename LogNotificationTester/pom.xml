@@ -21,6 +21,8 @@
 		<ch.qos.logback.contrib.version>0.1.5</ch.qos.logback.contrib.version>
 		<cloudwatch-logback-appender.version>1.0.6</cloudwatch-logback-appender.version>
 		<aws-java-sdk-logs.version>1.11.630</aws-java-sdk-logs.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	
 	<build>
