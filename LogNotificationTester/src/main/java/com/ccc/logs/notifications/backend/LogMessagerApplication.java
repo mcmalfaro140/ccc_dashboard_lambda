@@ -1,4 +1,4 @@
-package com.ccc.log.notification.backend;
+package com.ccc.logs.notifications.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
