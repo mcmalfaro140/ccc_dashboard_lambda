@@ -13,7 +13,7 @@
 	<groupId>com.ccc</groupId>
 	<artifactId>log.notification.backend</artifactId>
 	<version>1.0.0</version>
-	<name>api</name>
+	<name>Log Notifications Tester</name>
 	<description>Fake backend to test the AWS Lambda function</description>
 
 	<properties>

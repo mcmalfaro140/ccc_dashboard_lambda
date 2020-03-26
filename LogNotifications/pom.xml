@@ -9,6 +9,7 @@
 	<artifactId>logs.notifications</artifactId>
 	<version>1.0.6</version>
 	<packaging>jar</packaging>
+	<name>Log Notifications</name>
 	<description>The AWS Lambda function responsible for sending notifications regarding logs</description>
   
 	<properties>
