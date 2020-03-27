@@ -25,7 +25,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 	public DatabaseConnector() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-        	this.conn = DriverManager.getConnection(AWSParams.DATABASE_URL, AWSParams.DATABASE_USERNAME, AWSParams.DATABASE_PASSWORD);
+        	this.conn = DriverManager.getConnection(GlobalVariables.DATABASE_URL, GlobalVariables.DATABASE_USERNAME, GlobalVariables.DATABASE_PASSWORD);
 		} catch (SQLException|ClassNotFoundException ex) {
 			throw new LogNotificationException("Error while connecting to database", ex);
 		}

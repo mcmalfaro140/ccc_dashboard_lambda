@@ -42,7 +42,7 @@ class TimestampAsStringDeserializer extends StdDeserializer<ZonedDateTime> {
 	public ZonedDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
 		String epochTimeAsString = parser.getText();
 		long epochTimeAsLong = Long.parseLong(epochTimeAsString);
-		ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochTimeAsLong), ZoneId.systemDefault());
+		ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochTimeAsLong), ZoneId.of(GlobalVariables.TIME_ZONE));
 		
 		return date;
 	}

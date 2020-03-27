@@ -17,7 +17,7 @@ class AmazonSNSWrapper {
 	private static final AmazonSNS SNS_CLIENT = AmazonSNSClientBuilder
 			.standard()
 			.withCredentials(new EnvironmentVariableCredentialsProvider())
-			.withRegion(AWSParams.REGION)
+			.withRegion(GlobalVariables.AWS_REGION)
 			.build();
 	
 	/**
@@ -34,6 +34,14 @@ class AmazonSNSWrapper {
 	 */
 	public static PublishResult publishToSNS(String snsTopicArn, String message) {
 		PublishRequest request = new PublishRequest(snsTopicArn, message);
+		PublishResult result = AmazonSNSWrapper.SNS_CLIENT.publish(request);
+		
+		return result;
+	}
+	
+	public static PublishResult publishToSNS(String snsTopicArn, String message, String logGroup, String logStream) {
+		String str = String.format("%s\n%s\n%s", message, logGroup, logStream);
+		PublishRequest request = new PublishRequest(snsTopicArn, str);
 		PublishResult result = AmazonSNSWrapper.SNS_CLIENT.publish(request);
 		
 		return result;

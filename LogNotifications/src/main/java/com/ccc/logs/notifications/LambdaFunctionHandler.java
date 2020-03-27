@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.sns.model.PublishResult;
 
@@ -30,29 +29,34 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
 	 */
     @Override
     public Integer handleRequest(Object input, Context context) {
-    	LambdaLogger logger = context.getLogger();
     	LogData logData = null;
     	List<LogAlarmData> logAlarmList = null;
+    	StringBuilder cloudwatchLogData = new StringBuilder();
     	
     	try {
     		logData = LogParser.parse(input);
         	logAlarmList = this._getLogAlarms(logData);
-        	
-        	if (logAlarmList.size() != 0) {
-        		this._handleLogEvents(logData, logAlarmList, logger);
-        	}
+        	this._handleLogEvents(logData, logAlarmList, cloudwatchLogData);
         	
         	return 0;
     	} catch (Throwable e) {
     		String stackTrace = this._getStackTraceAsString(e);
     		String exceptionMessage = "An exception occurred. Some messages may not have been sent\n" + stackTrace;
     		
-    		logger.log(exceptionMessage);
-    		AmazonSNSWrapper.publishToSNS(AWSParams.EXCEPTION_SNS_TOPIC_ARN, exceptionMessage);
+    		cloudwatchLogData.append(exceptionMessage);
+    		AmazonSNSWrapper.publishToSNS(GlobalVariables.EXCEPTION_SNS_TOPIC_ARN, exceptionMessage);
     		
     		return 1;
     	} finally {
-    		this._logInvocationData(logger, context, logData, logAlarmList);
+    		String invocationData = String.format(
+        			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
+        			context.getMemoryLimitInMB(),
+        			context.getRemainingTimeInMillis(),
+        			Objects.toString(logData, "Log Data Not Obtained"),
+        			Objects.toString(logAlarmList, "Log Alarms Not Obtained")
+        	);
+    		cloudwatchLogData.append(invocationData);
+    		context.getLogger().log(cloudwatchLogData.toString());
     	}
     }
     
@@ -83,20 +87,37 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      * @param logger The AWS CloudWatch logger to use if any log
      * alarms are triggered
      */
-    private void _handleLogEvents(LogData logData, List<LogAlarmData> logAlarmList, LambdaLogger logger) {  
-    	for (LogEvent logEvent : logData.getLogEvents()) {
-			LogMessage logMessage = logEvent.getMessage();
-			
-			for (LogAlarmData logAlarm : logAlarmList) {
-				if (this._checkAlarm(logMessage, logAlarm)) {
-					for (SNSTopicData snsTopicData : logAlarm.getSNSTopicDataList()) {
-						PublishResult result = AmazonSNSWrapper.publishToSNS(snsTopicData.getTopicArn(), logMessage.toString());
-						
-						this._logPublishResult(logger, result);
-					}
-				}
-			}
-		}
+    private void _handleLogEvents(LogData logData, List<LogAlarmData> logAlarmList, StringBuilder cloudwatchLogData) {  
+    	if (!logAlarmList.isEmpty()) {
+    		StringBuilder publishResults = new StringBuilder();
+    		
+    		for (LogEvent logEvent : logData.getLogEvents()) {
+    			LogMessage logMessage = logEvent.getMessage();
+    			
+    			for (LogAlarmData logAlarm : logAlarmList) {
+    				if (this._checkAlarm(logMessage, logAlarm)) {
+    					for (SNSTopicData snsTopicData : logAlarm.getSNSTopicDataList()) {
+    						PublishResult result = AmazonSNSWrapper.publishToSNS(
+    								snsTopicData.getTopicArn(),
+    								logMessage.toString(),
+    								logData.getLogGroup(),
+    								logData.getLogStream()
+    						);
+    						String publishResultData = String.format(
+    				    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d",
+    				    			result.getMessageId(),
+    				    			result.getSdkResponseMetadata().getRequestId(),
+    				    			result.getSdkHttpMetadata().getHttpStatusCode()
+    				    	);
+    						
+    						publishResults.append(publishResultData);
+    					}
+    				}
+    			}
+    		}
+    		
+    		cloudwatchLogData.append(publishResults);
+    	}
     }
     
     /**
@@ -113,22 +134,6 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     }
     
     /**
-     * Logs data on the SNS publish to CloudWatch
-     * @param logger The logger that logs to AWS CloudWatch
-     * @param result The result of the SNS publish to log
-     */
-    private void _logPublishResult(LambdaLogger logger, PublishResult result) {
-    	String publishResultData = String.format(
-    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d",
-    			result.getMessageId(),
-    			result.getSdkResponseMetadata().getRequestId(),
-    			result.getSdkHttpMetadata().getHttpStatusCode()
-    	);
-    	
-    	logger.log(publishResultData);
-    }
-    
-    /**
      * Converts the stack trace of a <tt>Throwable</tt> object
      * to a string. Called whenever any
      * @param e The exception that occurred
@@ -142,23 +147,5 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     	e.printStackTrace(pw);
     	
     	return sw.toString();
-    }
-    
-    /**
-     * Logs data about this invocation of the Lambda function
-     * to CloudWatch
-     * @param logger The logger that logs to AWS CloudWatch
-     * @param context The context object
-     */
-    private void _logInvocationData(LambdaLogger logger, Context context, LogData logData, List<LogAlarmData> logAlarmList) {
-    	String invocationData = String.format(
-    			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
-    			context.getMemoryLimitInMB(),
-    			context.getRemainingTimeInMillis(),
-    			Objects.toString(logData),
-    			Objects.toString(logAlarmList)
-    	);
-    	
-    	logger.log(invocationData);
     }
 }
