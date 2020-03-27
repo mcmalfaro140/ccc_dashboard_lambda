@@ -10,8 +10,8 @@
 		</awsConfig>
 		
 		<createLogGroup>true</createLogGroup>
-		<groupName>test</groupName>
-		<streamName>testStream</streamName>
+		<groupName>test3</groupName>
+		<streamName>testStream3</streamName>
 		
 		<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
 	        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">

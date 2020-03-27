@@ -28,15 +28,11 @@ public class HomeController {
     @GetMapping("/")
     public String hello() {
     	MDC.put("testKey", "testValue");
-    	
-        for (int count = 0; count < 5; ++count) {
-        	this.logger.error("message0");
-            this.logger.warn("message1");
-            this.logger.info("message2");
-            this.logger.debug("message3");
-            this.logger.trace("message4");
-        }
-        
+    	this.logger.error("message0");
+        this.logger.warn("message1");
+        this.logger.info("message2,message3");
+        this.logger.debug("message4");
+        this.logger.trace("message5");
         MDC.remove("testKey");
         
         return "Hello World in Spring Boot";
