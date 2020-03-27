@@ -3,6 +3,9 @@ package com.ccc.logs.notifications;
 import com.amazonaws.SDKGlobalConfiguration;
 
 public class GlobalVariables {
+	/**
+	 * Suppresses default constructor
+	 */
 	private GlobalVariables() {
 	}
 	
