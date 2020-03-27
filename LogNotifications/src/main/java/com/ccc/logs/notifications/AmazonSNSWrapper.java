@@ -40,7 +40,7 @@ class AmazonSNSWrapper {
 	}
 	
 	public static PublishResult publishToSNS(String snsTopicArn, String message, String logGroup, String logStream) {
-		String str = String.format("%s\n%s\n%s", message, logGroup, logStream);
+		String str = String.format("Log Group: %s\nLog Stream: %s\n%s", logGroup, logStream, message);
 		PublishRequest request = new PublishRequest(snsTopicArn, str);
 		PublishResult result = AmazonSNSWrapper.SNS_CLIENT.publish(request);
 		
