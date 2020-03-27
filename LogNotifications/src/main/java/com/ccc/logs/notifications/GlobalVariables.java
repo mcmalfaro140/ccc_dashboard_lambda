@@ -44,5 +44,9 @@ public class GlobalVariables {
 	 */
 	public static final String EXCEPTION_SNS_TOPIC_ARN = System.getenv("EXCEPTION_SNS_TOPIC_ARN");
 	
+	/**
+	 * The time zone to be used for the timestamp fields in the
+	 * log messages
+	 */
 	public static final String TIME_ZONE = "America/Los_Angeles";
 }

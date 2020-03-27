@@ -39,6 +39,16 @@ class AmazonSNSWrapper {
 		return result;
 	}
 	
+	/**
+	 * Publishes a message to the specified SNS Topic ARN,
+	 * along with the log group and log stream that the log
+	 * message was put in
+	 * @param snsTopicArn The ARN of the SNS Topic to be published to
+	 * @param message The log message to be sent to be published
+	 * @param logGroup The log group to be published
+	 * @param logStream The log stream to be published
+	 * @return
+	 */
 	public static PublishResult publishToSNS(String snsTopicArn, String message, String logGroup, String logStream) {
 		String str = String.format("Log Group: %s\nLog Stream: %s\n%s", logGroup, logStream, message);
 		PublishRequest request = new PublishRequest(snsTopicArn, str);
