@@ -40,8 +40,8 @@ class TimestampAsLongDeserializer extends StdDeserializer<ZonedDateTime> {
 	
 	@Override
 	public ZonedDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
-		long epochTime = parser.getLongValue();
-		ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochTime), ZoneId.of(GlobalVariables.TIME_ZONE));
+		long epochTime = parser.getLongValue(); 
+		ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochTime), ZoneId.systemDefault());
 		
 		return date;
 	}
