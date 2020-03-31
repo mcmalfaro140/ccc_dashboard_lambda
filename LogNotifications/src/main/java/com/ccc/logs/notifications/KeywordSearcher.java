@@ -1,8 +1,7 @@
 package com.ccc.logs.notifications;
 
 import java.util.LinkedList;
-
-import org.eclipse.jdt.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Class container for function that searches
@@ -19,16 +18,15 @@ class KeywordSearcher {
 	 * Searches a log message for certain keywords
 	 * and sees if it finds any
 	 * @param message The log message to be searched
-	 * @param keywordData The keyword information to be
+	 * @param nullableKeywordDataList The keyword information to be
 	 * applied to the search
 	 * @return <tt>true</tt> if the logs meets all of the criteria
 	 * specified in the keyword data, <tt>false</tt> otherwise
 	 */
-	public static boolean search(String message, @Nullable KeywordDataList keywordDataList) {
-		if (null == keywordDataList) {
-			return true;
-		}
-		else {
+	public static boolean search(String message, Optional<KeywordDataList> nullableKeywordDataList) {
+		if (nullableKeywordDataList.isPresent()) {
+			KeywordDataList keywordDataList = nullableKeywordDataList.get();
+			
 			switch (keywordDataList.getRelationship()) {
 			case "AND":
 				return KeywordSearcher._andSearch(message, keywordDataList.getKeywordList());
@@ -38,6 +36,8 @@ class KeywordSearcher {
 				throw new LogNotificationException("Invalid value for keyword relationship");
 			}
 		}
+			
+		return true;
 	}
 	
 	/**

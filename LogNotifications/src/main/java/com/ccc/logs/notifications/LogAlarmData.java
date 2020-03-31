@@ -1,6 +1,6 @@
 package com.ccc.logs.notifications;
 
-import org.eclipse.jdt.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Contains only the necessary information needed to check
@@ -25,8 +25,7 @@ class LogAlarmData {
 	 * The data on what keywords should be searched for and
 	 * whether or not all or none need to be found
 	 */
-	@Nullable
-	private KeywordDataList keywordDataList;
+	private Optional<KeywordDataList> keywordDataList;
 	
 	/**
 	 * The criteria that a given log's level must meet to
@@ -49,7 +48,7 @@ class LogAlarmData {
 	public LogAlarmData(
 			int logAlarmId,
 			SNSTopicData[] snsTopicDataList,
-			@Nullable KeywordDataList keywordDataList,
+			Optional<KeywordDataList> keywordDataList,
 			LogLevelCriteriaData logLevelCriteriaData
 	) {
 		this.logAlarmId = logAlarmId;
@@ -84,7 +83,7 @@ class LogAlarmData {
 	 * determining whether or not a given log should
 	 * trigger this log alarm
 	 */
-	public @Nullable KeywordDataList getKeywordDataList() {
+	public Optional<KeywordDataList> getKeywordDataList() {
 		return this.keywordDataList;
 	}
 	

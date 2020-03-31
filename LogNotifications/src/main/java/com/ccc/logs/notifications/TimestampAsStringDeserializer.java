@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 /**
@@ -28,13 +29,12 @@ class TimestampAsStringDeserializer extends StdDeserializer<ZonedDateTime> {
 	}
 	
 	/**
-	 * Class object of the type
-	 * to which to convert the string value
-	 * representing the timestamp
-	 * @param type The class object
-	 * of the date type to use
+	 * {@code JavaType} constructor
+	 * @param type The type object
+	 * describing the type of object
+	 * to be used
 	 */
-	TimestampAsStringDeserializer(Class<ZonedDateTime> type) {
+	TimestampAsStringDeserializer(JavaType type) {
 		super(type);
 	}
 

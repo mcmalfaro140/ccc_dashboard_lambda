@@ -2,7 +2,9 @@ package com.ccc.logs.notifications;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -14,7 +16,7 @@ class JsonConverter {
 	 * The underlying object that actually does conversions
 	 * to/from JSON strings
 	 */
-	private static final ObjectMapper JSON_PARSER = new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper();
 	
 	/**
 	 * Suppresses default constructor
@@ -31,7 +33,7 @@ class JsonConverter {
 	 */
 	public static String stringify(Object obj) {
 		try {
-			return JsonConverter.JSON_PARSER.writeValueAsString(obj);
+			return JsonConverter.MAPPER.writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
 			throw new LogNotificationException("Error while converting object to JSON string", ex);
 		}
@@ -47,7 +49,7 @@ class JsonConverter {
 	 */
 	public static String prettyStringify(Object obj) {
 		try {
-			return JsonConverter.JSON_PARSER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+			return JsonConverter.MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
 			throw new LogNotificationException("Error while converting object to pretty JSON string", ex);
 		}
@@ -66,9 +68,17 @@ class JsonConverter {
 	 */
 	public static <T> T parse(String json, Class<T> type) {
 		try {
-			return JsonConverter.JSON_PARSER.readValue(json, type);
+			return JsonConverter.MAPPER.readValue(json, type);
 		} catch (IOException ex) {
 			throw new LogNotificationException("Error while parsing JSON log data", ex);
+		}
+	}
+	
+	public static JsonNode parse(JsonParser parser) {
+		try {
+			return JsonConverter.MAPPER.readTree(parser);
+		} catch (IOException ex) {
+			throw new LogNotificationException("Error while parsing custom field data", ex);
 		}
 	}
 }

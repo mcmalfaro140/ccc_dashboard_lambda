@@ -3,8 +3,7 @@ package com.ccc.logs.notifications;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
-
-import org.eclipse.jdt.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Class container for functions that convert a 
@@ -37,7 +36,7 @@ class LogAlarmDataMapper {
 					return logAlarmList;
 				}
 				
-				@Nullable KeywordDataList keywordData = LogAlarmDataMapper._extractKeywordList(set);
+				Optional<KeywordDataList> keywordData = LogAlarmDataMapper._extractKeywordList(set);
 				SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
 				LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);
 				
@@ -61,25 +60,25 @@ class LogAlarmDataMapper {
 	 * @throws SQLException Thrown if there is an exception
 	 * extracting the keywords from the <tt>ResultSet</tt>
 	 */
-	private static @Nullable KeywordDataList _extractKeywordList(ResultSet set) throws SQLException {
+	private static Optional<KeywordDataList> _extractKeywordList(ResultSet set) throws SQLException {
 		String keywordIds = set.getString("KeywordIds");
-		@Nullable String keywords = set.getString("Keywords");
-		@Nullable String relationship = set.getString("KeywordRelationship");
+		Optional<String> keywords = Optional.ofNullable(set.getString("Keywords"));
+		Optional<String> relationship = Optional.ofNullable(set.getString("KeywordRelationship"));
 		
-		if (null == keywords) {
-			return null;
+		if (keywords.isPresent()) {
+			int[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
+			String[] keywordList = keywords.get().split(",");
+			
+			LinkedList<KeywordData> keywordData = new LinkedList<KeywordData>();
+			
+			for (int index = 0; index < keywordList.length; ++index) {
+				keywordData.add(new KeywordData(keywordIdList[index], keywordList[index]));
+			}
+			
+			return Optional.ofNullable(new KeywordDataList(keywordData, relationship.get()));
 		}
 		
-		int[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
-		String[] keywordList = keywords.split(",");
-		
-		LinkedList<KeywordData> keywordData = new LinkedList<KeywordData>();
-		
-		for (int index = 0; index < keywordList.length; ++index) {
-			keywordData.add(new KeywordData(keywordIdList[index], keywordList[index]));
-		}
-		
-		return new KeywordDataList(keywordData, relationship);
+		return null;
 	}
 	
 	/**

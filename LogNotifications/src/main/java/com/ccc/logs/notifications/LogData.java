@@ -39,7 +39,7 @@ class LogData {
 	 * set on AWS Lambda. This value will likely not be
 	 * useful
 	 */
-	private List<String> subscriptionFilters;
+	private LinkedList<String> subscriptionFilters;
 	
 	/**
 	 * The list of log events being processed for this
@@ -95,7 +95,7 @@ class LogData {
 	 * @return The subscription filters that passed the filters
 	 * set on AWS Lambda
 	 */
-	public List<String> getSubscriptionFilters() {
+	public LinkedList<String> getSubscriptionFilters() {
 		return this.subscriptionFilters;
 	}
 	
