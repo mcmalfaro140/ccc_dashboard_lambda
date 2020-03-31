@@ -23,10 +23,9 @@ class LogParser {
 	
 	/**
 	 * Decompresses and parses the main
-	 * @param input The main input (in other words, log data)
-	 * to our Lambda function
-	 * @return The decompressed and parsed log data that was
-	 * input to our Lambda function
+	 * @param input The log data to this Lambda function
+	 * @return The decompressed and parsed log data to
+	 * the Lambda function
 	 */
 	public static LogData parse(Object input) {
 		String awslogs = LogParser._decodeInput(input);
