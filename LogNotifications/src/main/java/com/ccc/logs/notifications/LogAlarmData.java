@@ -2,6 +2,8 @@ package com.ccc.logs.notifications;
 
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Contains only the necessary information needed to check
  * if a given log should trigger this alarm and the Amazon
@@ -25,6 +27,7 @@ class LogAlarmData {
 	 * The data on what keywords should be searched for and
 	 * whether or not all or none need to be found
 	 */
+	@JsonSerialize(using=NullableKeywordDataListSerializer.class)
 	private Optional<KeywordDataList> keywordDataList;
 	
 	/**

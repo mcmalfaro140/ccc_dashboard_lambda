@@ -28,8 +28,10 @@ public class HomeController {
     @GetMapping("/")
     public String hello() {
     	MDC.put("testKey", "testValue");
+    	MDC.put("thing", "stuff");
     	this.logger.error("message0");
         this.logger.warn("message1");
+        MDC.remove("testKey");
         this.logger.info("message2,message3");
         this.logger.debug("message4");
         this.logger.trace("message5");

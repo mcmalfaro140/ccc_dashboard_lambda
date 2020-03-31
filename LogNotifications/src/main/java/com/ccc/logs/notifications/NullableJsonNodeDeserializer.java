@@ -10,6 +10,10 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+/**
+ * Converts a JSON object or null value to an instance
+ * of {@code Optional<JsonNode>}
+ */
 class NullableJsonNodeDeserializer extends StdDeserializer<Optional<JsonNode>> {
 	/**
 	 * Serialization ID
