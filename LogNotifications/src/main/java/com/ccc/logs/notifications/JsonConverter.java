@@ -9,12 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Singleton that converts POJOs to/from
  * JSON strings
  */
-class JsonConverter {
-	/**
-	 * Singleton instance of this class
-	 */
-	private static final JsonConverter INSTANCE = new JsonConverter();
-	
+class JsonConverter {	
 	/**
 	 * The underlying object that actually does conversions
 	 * to/from JSON strings
