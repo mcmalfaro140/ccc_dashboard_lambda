@@ -11,24 +11,12 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>tycho-compiler-jdt</artifactId>
-            <version>${tycho-compiler-jdt.version}</version>
-          </dependency>
-        </dependencies>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
           <encoding>UTF-8</encoding>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
           <showWarnings>true</showWarnings>
-          <compilerId>jdt</compilerId>
-          <compilerArguments>
-            <annotationpath>CLASSPATH</annotationpath>
-          </compilerArguments>
-          <compilerArgument>-err:nullAnnot,null,-missingNullDefault</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
@@ -42,34 +30,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <filters>
-            <filter>
-              <artifact>*:*</artifact>
-              <excludes>
-                <exclude>META-INF/*.SF</exclude>
-                <exclude>META-INF/*.DSA</exclude>
-                <exclude>META-INF/*.RSA</exclude>
-              </excludes>
-            </filter>
-          </filters>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${findbugs-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>run-findbugs-fornullchecks</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <visitors>InconsistentAnnotations,NoteUnconditionalParamDerefs,FindNullDeref,FindNullDerefsInvolvingNonShortCircuitEvaluation</visitors>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -100,15 +60,12 @@
   </dependencyManagement>
   <properties>
     <aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
-    <findbugs-maven-plugin.version>3.0.0</findbugs-maven-plugin.version>
     <junit.version>4.12</junit.version>
     <java.version>1.8</java.version>
     <maven-shade-plugin.version>3.0.0</maven-shade-plugin.version>
     <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
     <aws-lambda-java-events.version>2.2.7</aws-lambda-java-events.version>
-    <org.eclipse.jdt.annotation.version>2.2.400</org.eclipse.jdt.annotation.version>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <tycho-compiler-jdt.version>1.0.0</tycho-compiler-jdt.version>
     <aws-java-sdk-bom.version>1.11.747</aws-java-sdk-bom.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
