@@ -35,7 +35,7 @@ class LogParser {
 	}
 	
 	/**
-	 * Decompresses the input to out Lambda function
+	 * Decompresses the input to the Lambda function
 	 * @param input The data to be decompressed
 	 * @return The decompressed input
 	 */
