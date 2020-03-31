@@ -22,7 +22,7 @@ class AmazonSNSWrapper {
 			.build();
 	
 	/**
-	 * Serves only to suppress the default constructor
+	 * Suppresses default constructor
 	 */
 	private AmazonSNSWrapper() {
 	}
