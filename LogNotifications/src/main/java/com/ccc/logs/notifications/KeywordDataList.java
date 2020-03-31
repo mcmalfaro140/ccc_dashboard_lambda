@@ -18,4 +18,9 @@ public class KeywordDataList {
 	public String getRelationship() {
 		return this.relationship;
 	}
+	
+	@Override
+	public String toString() {
+		return JsonConverter.prettyStringify(this);
+	}
 }

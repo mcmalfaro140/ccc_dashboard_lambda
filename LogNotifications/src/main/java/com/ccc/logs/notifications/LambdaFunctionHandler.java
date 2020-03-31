@@ -55,6 +55,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
         			Objects.toString(logData, "Log Data Not Obtained"),
         			Objects.toString(logAlarmList, "Log Alarms Not Obtained")
         	);
+    		
     		cloudwatchLogData.append(invocationData);
     		context.getLogger().log(cloudwatchLogData.toString());
     	}

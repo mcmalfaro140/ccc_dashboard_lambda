@@ -47,9 +47,9 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 				"GROUP_CONCAT(DISTINCT K.KeywordId) AS KeywordIds, " +
 				"GROUP_CONCAT(DISTINCT K.Word) AS Keywords " +
 				"FROM LogAlarms LA " +
+				"NATURAL JOIN LogLevelCriteria LLC " +
 				"NATURAL JOIN XRefLogAlarmLogGroup " +
 				"NATURAL JOIN LogGroups LG " +
-				"NATURAL JOIN LogLevelCriteria LLC " +
 				"NATURAL JOIN XRefLogAlarmSNSTopic " +
 				"NATURAL JOIN SNSTopics ST " +
 				"NATURAL JOIN XRefLogAlarmKeyword " +
@@ -60,7 +60,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 			stmt.setString(1, logGroup);
 			
 			try (ResultSet set = stmt.executeQuery()) {
-				return LogAlarmDataMapper.mapResultSetToLogAlarmData(set);
+				return LogAlarmDataMapper.mapResultSet(set);
 			}
 		} catch (SQLException ex) {
 			throw new LogNotificationException("Error while querying database", ex);

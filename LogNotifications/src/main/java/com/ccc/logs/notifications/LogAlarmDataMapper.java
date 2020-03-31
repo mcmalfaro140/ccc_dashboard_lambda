@@ -18,15 +18,15 @@ class LogAlarmDataMapper {
 	}
 	
 	/**
-	 * Converts the <tt>ResultSet</tt> to
-	 * a <tt>LogAlarmData</tt> POJO
+	 * Converts the {@code ResultSet} to
+	 * a {@code LogAlarmData} object
 	 * @param set The <tt>ResultSet</tt>
 	 * to be converted
 	 * @return A List of <tt>LogAlarmData</tt>
 	 * that corresponds to the log alarms listed
-	 * in the given <tt>ResultSet</tt>
+	 * in the given {@code ResultSet}
 	 */
-	public static LinkedList<LogAlarmData> mapResultSetToLogAlarmData(ResultSet set) {
+	public static LinkedList<LogAlarmData> mapResultSet(ResultSet set) {
 		LinkedList<LogAlarmData> logAlarmList = new LinkedList<LogAlarmData>();
 		
 		try {

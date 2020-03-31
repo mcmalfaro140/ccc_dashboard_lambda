@@ -19,21 +19,12 @@ class JsonConverter {
 	 * The underlying object that actually does conversions
 	 * to/from JSON strings
 	 */
-	private final ObjectMapper mapper = new ObjectMapper();
+	private static final ObjectMapper JSON_PARSER = new ObjectMapper();
 	
 	/**
-	 * Empty constructor. The "mapper" field of type
-	 * {@code ObjectMapper} may be configured here
+	 * Suppresses default constructor
 	 */
 	private JsonConverter() {
-	}
-	
-	/**
-	 * Global access point for the singleton instance
-	 * @return
-	 */
-	public static JsonConverter instance() {
-		return JsonConverter.INSTANCE;
 	}
 	
 	/**
@@ -43,9 +34,9 @@ class JsonConverter {
 	 * @return A JSON string representation
 	 * of the provided object
 	 */
-	public String stringify(Object obj) {
+	public static String stringify(Object obj) {
 		try {
-			return this.mapper.writeValueAsString(obj);
+			return JsonConverter.JSON_PARSER.writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
 			throw new LogNotificationException("Error while converting object to JSON string", ex);
 		}
@@ -59,9 +50,9 @@ class JsonConverter {
 	 * @return A pretty printed JSON string
 	 * representation of the provided object
 	 */
-	public String prettyStringify(Object obj) {
+	public static String prettyStringify(Object obj) {
 		try {
-			return this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+			return JsonConverter.JSON_PARSER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
 			throw new LogNotificationException("Error while converting object to pretty JSON string", ex);
 		}
@@ -78,9 +69,9 @@ class JsonConverter {
 	 * @return A POJO with the values
 	 * specified in the JSON string
 	 */
-	public <T> T parse(String json, Class<T> type) {
+	public static <T> T parse(String json, Class<T> type) {
 		try {
-			return this.mapper.readValue(json, type);
+			return JsonConverter.JSON_PARSER.readValue(json, type);
 		} catch (IOException ex) {
 			throw new LogNotificationException("Error while parsing JSON log data", ex);
 		}

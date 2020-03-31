@@ -118,6 +118,6 @@ class LogData {
 	 */
 	@Override
 	public String toString() {
-		return JsonConverter.instance().prettyStringify(this);
+		return JsonConverter.prettyStringify(this);
 	}
 }

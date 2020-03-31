@@ -30,7 +30,7 @@ class LogParser {
 	 */
 	public static LogData parse(Object input) {
 		String awslogs = LogParser._decodeInput(input);
-		LogData data = JsonConverter.instance().parse(awslogs, LogData.class);
+		LogData data = JsonConverter.parse(awslogs, LogData.class);
 		
 		return data;
 	}
