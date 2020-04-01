@@ -105,7 +105,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     								logData.getLogStream()
     						);
     						String publishResultData = String.format(
-    				    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d",
+    				    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d\n",
     				    			result.getMessageId(),
     				    			result.getSdkResponseMetadata().getRequestId(),
     				    			result.getSdkHttpMetadata().getHttpStatusCode()

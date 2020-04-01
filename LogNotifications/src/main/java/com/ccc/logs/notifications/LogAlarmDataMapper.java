@@ -25,28 +25,24 @@ class LogAlarmDataMapper {
 	 * that corresponds to the log alarms listed
 	 * in the given {@code ResultSet}
 	 */
-	public static LinkedList<LogAlarmData> mapResultSet(ResultSet set) {
+	public static LinkedList<LogAlarmData> mapResultSet(ResultSet set) throws SQLException {
 		LinkedList<LogAlarmData> logAlarmList = new LinkedList<LogAlarmData>();
 		
-		try {
-			while (set.next()) {				
-				int logAlarmId = set.getInt("LogAlarmId");
-				
-				if (0 == logAlarmId) {
-					return logAlarmList;
-				}
-				
-				Optional<KeywordDataList> keywordData = LogAlarmDataMapper._extractKeywordList(set);
-				SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
-				LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);
-				
-				logAlarmList.add(new LogAlarmData(logAlarmId, snsTopicDataList, keywordData, logLevelCriteriaData));
+		while (set.next()) {				
+			int logAlarmId = set.getInt("LogAlarmId");
+			
+			if (0 == logAlarmId) {
+				return logAlarmList;
 			}
 			
-			return logAlarmList;
-		} catch (SQLException ex) {
-			throw new LogNotificationException("Error while iterating through ResultSet of data on log alarms", ex);
+			Optional<KeywordDataList> keywordData = LogAlarmDataMapper._extractKeywordList(set);
+			SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
+			LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);
+			
+			logAlarmList.add(new LogAlarmData(logAlarmId, snsTopicDataList, keywordData, logLevelCriteriaData));
 		}
+		
+		return logAlarmList;
 	}
 	
 	/**
