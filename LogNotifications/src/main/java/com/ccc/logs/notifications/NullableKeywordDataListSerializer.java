@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  * Converts the custom fields object of {@code Optional<KeywordDataList>} to
  * a JSON object when deserializing
  */
-public class NullableKeywordDataListSerializer extends StdSerializer<Optional<KeywordDataList>> {
+class NullableKeywordDataListSerializer extends StdSerializer<Optional<KeywordDataList>> {
 	/**
 	 * Serialization ID
 	 */
