@@ -16,7 +16,7 @@ import java.util.zip.GZIPInputStream;
  */
 class LogParser {
 	/**
-	 * Suppresses the default constructor
+	 * Suppresses default constructor
 	 */
 	private LogParser() {
 	}

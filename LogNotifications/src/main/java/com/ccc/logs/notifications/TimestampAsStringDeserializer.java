@@ -29,12 +29,11 @@ class TimestampAsStringDeserializer extends StdDeserializer<ZonedDateTime> {
 	}
 	
 	/**
-	 * {@code JavaType} constructor
-	 * @param type The type object
-	 * describing the type of object
-	 * to be used
+	 * Class constructor
+	 * @param type Class object of
+	 * the type to be deserialized
 	 */
-	TimestampAsStringDeserializer(JavaType type) {
+	TimestampAsStringDeserializer(Class<ZonedDateTime> type) {
 		super(type);
 	}
 

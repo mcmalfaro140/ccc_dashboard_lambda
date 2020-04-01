@@ -28,12 +28,11 @@ class NullableJsonNodeDeserializer extends StdDeserializer<Optional<JsonNode>> {
 	}
 	
 	/**
-	 * {@code JavaType} constructor
-	 * @param type The type object
-	 * describing the type of object
-	 * to be used
+	 * Class constructor
+	 * @param type Class object of
+	 * the type to be deserialized
 	 */
-	NullableJsonNodeDeserializer(JavaType type) {
+	NullableJsonNodeDeserializer(Class<Optional<JsonNode>> type) {
 		super(type);
 	}
 

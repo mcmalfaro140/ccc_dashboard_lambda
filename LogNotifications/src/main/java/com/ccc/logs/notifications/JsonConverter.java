@@ -56,15 +56,16 @@ class JsonConverter {
 	}
 	
 	/**
-	 * Converts a JSON string to a POJO
-	 * @param <T> The type of object to
-	 * be returned
-	 * @param json The JSON string to be
-	 * parsed
-	 * @param type The class object of the
-	 * type of object to be returned
-	 * @return A POJO with the values
-	 * specified in the JSON string
+	 * Converts the {@code String} to the type
+	 * specified by the given {@code Class} object
+	 * @param <T> The type to convert the {@code String}
+	 * to
+	 * @param json The {@code String} containing the
+	 * JSON data to be parsed
+	 * @param type The {@code Class} object of the type to
+	 * convert the JSON data to
+	 * @return A POJO of the type contained in the {@code Class}
+	 * object with the same data contained in the {@code String}
 	 */
 	public static <T> T parse(String json, Class<T> type) {
 		try {
@@ -86,6 +87,26 @@ class JsonConverter {
 			return JsonConverter.MAPPER.readTree(parser);
 		} catch (IOException ex) {
 			throw new LogNotificationException("Error while parsing custom field data", ex);
+		}
+	}
+	
+	/**
+	 * Converts the {@code JsonParser} to the type
+	 * specified by the given {@code Class} object
+	 * @param <T> The type to convert the {@code JsonParser}
+	 * to
+	 * @param parser The {@code JsonParser} containing the
+	 * JSON data to be parsed
+	 * @param type The {@code Class} object of the type to
+	 * convert the JSON data to
+	 * @return A POJO of the type contained in the {@code Class}
+	 * object with the same data contained in the {@code JsonParser}
+	 */
+	public static <T> T parse(JsonParser parser, Class<T> type) {
+		try {
+			return JsonConverter.MAPPER.readValue(parser, type);
+		} catch (IOException ex) {
+			throw new LogNotificationException("Error while parsing JSON log data", ex);
 		}
 	}
 }
