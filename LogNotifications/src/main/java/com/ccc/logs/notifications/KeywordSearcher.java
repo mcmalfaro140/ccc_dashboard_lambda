@@ -28,10 +28,10 @@ class KeywordSearcher {
 			KeywordDataList keywordDataList = nullableKeywordDataList.get();
 			
 			switch (keywordDataList.getRelationship()) {
-			case "AND":
-				return KeywordSearcher._andSearch(message, keywordDataList.getKeywordList());
-			case "OR":
-				return KeywordSearcher._orSearch(message, keywordDataList.getKeywordList());
+			case "ANY":
+				return KeywordSearcher._allSearch(message, keywordDataList.getKeywordList());
+			case "ALL":
+				return KeywordSearcher._anySearch(message, keywordDataList.getKeywordList());
 			default:
 				throw new LogNotificationException("Invalid value for keyword relationship");
 			}
@@ -47,7 +47,7 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if all keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _andSearch(String message, LinkedList<KeywordData> keywordList) {
+	private static boolean _allSearch(String message, LinkedList<KeywordData> keywordList) {
 		for (KeywordData keyword : keywordList) {
 			if (!KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
 				return false;
@@ -64,7 +64,7 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if any keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _orSearch(String message, LinkedList<KeywordData> keywordList) {
+	private static boolean _anySearch(String message, LinkedList<KeywordData> keywordList) {
 		for (KeywordData keyword : keywordList) {
 			if (KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
 				return true;
