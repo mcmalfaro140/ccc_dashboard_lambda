@@ -29,17 +29,21 @@ class LevelComparer {
 	 * given log's level meets the given
 	 * criteria, <tt>false</tt> otherwise
 	 */
-	public static boolean compare(String level, LogLevelCriteriaData logLevelCriteria) {
-		LogLevel levelOfThreshold = LogLevel.valueOf(logLevelCriteria.getLogLevel());		
-		LogLevel levelOfLog = LogLevel.valueOf(level);
+	public static boolean compare(String levelOfLogMessage, String levelOfLogAlarm, String comparison) {
+		LogLevel logMessageLevel = LogLevel.valueOf(levelOfLogMessage);		
+		LogLevel logAlarmLevel = LogLevel.valueOf(levelOfLogAlarm);
 		
-		switch (logLevelCriteria.getComparison()) {
+		switch (comparison) {
 		case "==":
-			return levelOfLog.equals(levelOfThreshold);
+			return logMessageLevel.equals(logAlarmLevel);
+		case "<":
+			return logMessageLevel.ordinal() < logAlarmLevel.ordinal();
+		case "<=":
+			return logMessageLevel.ordinal() <= logAlarmLevel.ordinal();
 		case ">":
-			return levelOfLog.ordinal() > levelOfThreshold.ordinal();
+			return logMessageLevel.ordinal() > logAlarmLevel.ordinal();
 		case ">=":
-			return levelOfLog.ordinal() >= levelOfThreshold.ordinal();
+			return logMessageLevel.ordinal() >= logAlarmLevel.ordinal();
 		default:
 			throw new LogNotificationException("Error in log level criteria data");
 		}

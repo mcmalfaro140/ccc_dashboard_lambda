@@ -130,7 +130,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      * given log alarm, <tt>false</tt> otherwise
      */
     private boolean _checkAlarm(LogMessage logMessage, LogAlarmData logAlarm) {
-    	return LevelComparer.compare(logMessage.getLevel(), logAlarm.getLogLevelCriteriaData()) &&
+    	return LevelComparer.compare(logMessage.getLevel(), logAlarm.getLogLevel(), logAlarm.getComparison()) &&
     			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordDataList());
     }
     

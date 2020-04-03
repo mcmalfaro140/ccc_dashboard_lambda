@@ -17,6 +17,10 @@ class LogAlarmData {
 	 */
 	private int logAlarmId;
 	
+	private String logLevel;
+	
+	private String comparison;
+	
 	/**
 	 * The data on the SNS Topics that should have messages
 	 * sent to them if this log alarm is triggered
@@ -29,12 +33,6 @@ class LogAlarmData {
 	 */
 	@JsonSerialize(using=NullableKeywordDataListSerializer.class)
 	private Optional<KeywordDataList> keywordDataList;
-	
-	/**
-	 * The criteria that a given log's level must meet to
-	 * trigger this log alarm
-	 */
-	private LogLevelCriteriaData logLevelCriteriaData;
 	
 	/**
 	 * Constructs a log alarm
@@ -50,14 +48,16 @@ class LogAlarmData {
 	 */
 	public LogAlarmData(
 			int logAlarmId,
+			String logLevel,
+			String comparison,
 			SNSTopicData[] snsTopicDataList,
-			Optional<KeywordDataList> keywordDataList,
-			LogLevelCriteriaData logLevelCriteriaData
+			Optional<KeywordDataList> keywordDataList
 	) {
 		this.logAlarmId = logAlarmId;
+		this.logLevel = logLevel;
+		this.comparison = comparison;
 		this.snsTopicDataList = snsTopicDataList;
 		this.keywordDataList = keywordDataList;
-		this.logLevelCriteriaData = logLevelCriteriaData;
 	}
 	
 	/**
@@ -90,14 +90,12 @@ class LogAlarmData {
 		return this.keywordDataList;
 	}
 	
-	/**
-	 * Returns the criteria that a given log's level must
-	 * meet to trigger this log alarm
-	 * @return The criteria that a given log's level must
-	 * meet to trigger this log alarm
-	 */
-	public LogLevelCriteriaData getLogLevelCriteriaData() {
-		return this.logLevelCriteriaData;
+	public String getLogLevel() {
+		return this.logLevel;
+	}
+	
+	public String getComparison() {
+		return this.comparison;
 	}
 	
 	/**

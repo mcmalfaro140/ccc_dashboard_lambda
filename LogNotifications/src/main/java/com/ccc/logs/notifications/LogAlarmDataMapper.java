@@ -35,11 +35,12 @@ class LogAlarmDataMapper {
 				return logAlarmList;
 			}
 			
+			String logLevel = set.getString("LogLevel");
+			String comparison = set.getString("Comparison");
 			Optional<KeywordDataList> keywordData = LogAlarmDataMapper._extractKeywordList(set);
 			SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);
-			LogLevelCriteriaData logLevelCriteriaData = LogAlarmDataMapper._extractLogLevelCriteriaData(set);
 			
-			logAlarmList.add(new LogAlarmData(logAlarmId, snsTopicDataList, keywordData, logLevelCriteriaData));
+			logAlarmList.add(new LogAlarmData(logAlarmId, logLevel, comparison, snsTopicDataList, keywordData));
 		}
 		
 		return logAlarmList;
@@ -134,23 +135,5 @@ class LogAlarmDataMapper {
 		}
 		
 		return snsTopicDataList;
-	}
-	
-	/**
-	 * Extracts the log level criteria from the current row of the
-	 * <tt>ResultSet</tt>
-	 * @param set The <tt>ResultSet</tt> to have data extracted
-	 * from it
-	 * @return The log level criteria in the current row of the
-	 * <tt>ResultSet</tt>
-	 * @throws SQLException Thrown if there is an exception extracting
-	 * the log level criteria from the <tt>ResultSet</tt>
-	 */
-	private static LogLevelCriteriaData _extractLogLevelCriteriaData(ResultSet set) throws SQLException {
-		int logLevelCriteriaId = set.getInt("LogLevelCriteriaId");
-		String logLevel = set.getString("LogLevel");
-		String criteria = set.getString("Comparison");
-		
-		return new LogLevelCriteriaData(logLevelCriteriaId, logLevel, criteria);
 	}
 }
