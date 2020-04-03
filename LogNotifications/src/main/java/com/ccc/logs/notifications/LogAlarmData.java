@@ -17,8 +17,16 @@ class LogAlarmData {
 	 */
 	private int logAlarmId;
 	
+	/**
+	 * Represent the level of log that
+	 * the log messages are to be compared to
+	 */
 	private String logLevel;
 	
+	/**
+	 * Represents how the level of the log messages
+	 * are to be compared to the level of this log alarm
+	 */
 	private String comparison;
 	
 	/**
@@ -90,10 +98,18 @@ class LogAlarmData {
 		return this.keywordDataList;
 	}
 	
+	/**
+	 * Returns the level of this log alarm
+	 * @return The level of this log alarm
+	 */
 	public String getLogLevel() {
 		return this.logLevel;
 	}
 	
+	/**
+	 * Returns the way log messages are to be compared to this log alarm
+	 * @return The way log messages are to be compared to this log alarm
+	 */
 	public String getComparison() {
 		return this.comparison;
 	}
