@@ -29,9 +29,9 @@ class KeywordSearcher {
 			
 			switch (keywordDataList.getRelationship()) {
 			case "ANY":
-				return KeywordSearcher._allSearch(message, keywordDataList.getKeywordList());
-			case "ALL":
 				return KeywordSearcher._anySearch(message, keywordDataList.getKeywordList());
+			case "ALL":
+				return KeywordSearcher._allSearch(message, keywordDataList.getKeywordList());
 			default:
 				throw new LogNotificationException("Invalid value for keyword relationship");
 			}
