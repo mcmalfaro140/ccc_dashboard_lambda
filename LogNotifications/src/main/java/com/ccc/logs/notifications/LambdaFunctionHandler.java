@@ -136,7 +136,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     
     /**
      * Converts the stack trace of a <tt>Throwable</tt> object
-     * to a string. Called whenever any
+     * to a string. Called whenever any exception occurs
      * @param e The exception that occurred
      * @return A string representation of the stack trace of
      * the exception that occurred
