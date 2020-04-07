@@ -26,7 +26,7 @@ class LogMessage {
 	 * The level for this
 	 * log message
 	 */
-	private String level;
+	private LogLevel level;
 	
 	/**
 	 * The thread that recorded
@@ -62,6 +62,8 @@ class LogMessage {
 	@JsonProperty(value="mdc")
 	private Optional<JsonNode> customFields;
 	
+	
+	
 	/**
 	 * Returns the time this log
 	 * message was made
@@ -78,7 +80,7 @@ class LogMessage {
 	 * @return The level of this
 	 * log message
 	 */
-	public String getLevel() {
+	public LogLevel getLevel() {
 		return this.level;
 	}
 	

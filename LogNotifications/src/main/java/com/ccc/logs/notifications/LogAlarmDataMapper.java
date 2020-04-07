@@ -35,7 +35,7 @@ class LogAlarmDataMapper {
 				return logAlarmList;
 			}
 			
-			String logLevel = set.getString("LogLevel");
+			LogLevel logLevel = LogLevel.valueOf(set.getString("LogLevel"));
 			String comparison = set.getString("Comparison");
 			Optional<KeywordDataList> keywordData = LogAlarmDataMapper._extractKeywordList(set);
 			SNSTopicData[] snsTopicDataList = LogAlarmDataMapper._extractSNSTopicData(set);

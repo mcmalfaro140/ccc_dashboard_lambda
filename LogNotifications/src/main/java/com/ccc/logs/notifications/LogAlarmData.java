@@ -2,8 +2,6 @@ package com.ccc.logs.notifications;
 
 import java.util.Optional;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Contains only the necessary information needed to check
  * if a given log should trigger this alarm and the Amazon
@@ -21,7 +19,7 @@ class LogAlarmData {
 	 * Represent the level of log that
 	 * the log messages are to be compared to
 	 */
-	private String logLevel;
+	private LogLevel logLevel;
 	
 	/**
 	 * Represents how the level of the log messages
@@ -55,7 +53,7 @@ class LogAlarmData {
 	 */
 	public LogAlarmData(
 			int logAlarmId,
-			String logLevel,
+			LogLevel logLevel,
 			String comparison,
 			SNSTopicData[] snsTopicDataList,
 			Optional<KeywordDataList> keywordDataList
@@ -101,7 +99,7 @@ class LogAlarmData {
 	 * Returns the level of this log alarm
 	 * @return The level of this log alarm
 	 */
-	public String getLogLevel() {
+	public LogLevel getLogLevel() {
 		return this.logLevel;
 	}
 	

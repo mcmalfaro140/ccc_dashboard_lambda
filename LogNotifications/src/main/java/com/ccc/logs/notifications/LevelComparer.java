@@ -4,13 +4,7 @@ package com.ccc.logs.notifications;
  * Class container for comparing a given log's
  * level to certain log level criteria
  */
-class LevelComparer {
-	/**
-	 * Used to make comparison of log levels easier
-	 * by using ordinal values
-	 */
-	private enum LogLevel { TRACE, DEBUG, INFO, WARN, ERROR }
-	
+class LevelComparer {	
 	/**
 	 * Suppresses default constructor
 	 */
@@ -29,23 +23,20 @@ class LevelComparer {
 	 * given log's level meets the given
 	 * criteria, <tt>false</tt> otherwise
 	 */
-	public static boolean compare(String levelOfLogMessage, String levelOfLogAlarm, String comparison) {
-		LogLevel logMessageLevel = LogLevel.valueOf(levelOfLogMessage);		
-		LogLevel logAlarmLevel = LogLevel.valueOf(levelOfLogAlarm);
-		
+	public static boolean compare(LogLevel levelOfLogMessage, LogLevel levelOfLogAlarm, String comparison) {		
 		switch (comparison) {
 		case "==":
-			return logMessageLevel.equals(logAlarmLevel);
+			return levelOfLogMessage.equals(levelOfLogAlarm);
 		case "<":
-			return logMessageLevel.ordinal() < logAlarmLevel.ordinal();
-		case "<=":
-			return logMessageLevel.ordinal() <= logAlarmLevel.ordinal();
+			return levelOfLogMessage.ordinal() < levelOfLogAlarm.ordinal();
 		case ">":
-			return logMessageLevel.ordinal() > logAlarmLevel.ordinal();
+			return levelOfLogMessage.ordinal() > levelOfLogAlarm.ordinal();
+		case "<=":
+			return levelOfLogMessage.ordinal() <= levelOfLogAlarm.ordinal();
 		case ">=":
-			return logMessageLevel.ordinal() >= logAlarmLevel.ordinal();
+			return levelOfLogMessage.ordinal() >= levelOfLogAlarm.ordinal();
 		default:
-			throw new LogNotificationException("Error in log level criteria data");
+			throw new LogNotificationException("Error while comparing log levels");
 		}
 	}
 }
