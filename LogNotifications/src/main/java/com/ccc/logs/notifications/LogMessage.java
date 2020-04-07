@@ -3,7 +3,8 @@ package com.ccc.logs.notifications;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -59,10 +60,8 @@ class LogMessage {
 	 * custom fields, then this value
 	 * is <tt>null</tt>
 	 */
-	@JsonProperty(value="mdc")
-	private Optional<JsonNode> customFields;
-	
-	
+	@JsonInclude(value=Include.NON_EMPTY)
+	private Optional<JsonNode> mdc;
 	
 	/**
 	 * Returns the time this log
@@ -134,8 +133,8 @@ class LogMessage {
 	 * any custom fields attached to this
 	 * log message. Can be null
 	 */
-	public Optional<JsonNode> getCustomFields() {
-		return this.customFields;
+	public Optional<JsonNode> getMDC() {
+		return this.mdc;
 	}
 	
 	/**
