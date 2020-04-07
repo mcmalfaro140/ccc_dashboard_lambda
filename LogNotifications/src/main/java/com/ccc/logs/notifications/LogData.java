@@ -1,7 +1,6 @@
 package com.ccc.logs.notifications;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Contains information on all of the logs being
@@ -105,7 +104,7 @@ class LogData {
 	 * @return The list of log events being processed for this
 	 * invocation of this Lambda function
 	 */
-	public List<LogEvent> getLogEvents() {
+	public LinkedList<LogEvent> getLogEvents() {
 		return this.logEvents;
 	}
 	

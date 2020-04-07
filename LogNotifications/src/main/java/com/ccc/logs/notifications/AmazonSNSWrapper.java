@@ -1,7 +1,5 @@
 package com.ccc.logs.notifications;
 
-import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
-
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sns.model.PublishRequest;
@@ -17,7 +15,7 @@ class AmazonSNSWrapper {
 	 */
 	private static final AmazonSNS SNS_CLIENT = AmazonSNSClientBuilder
 			.standard()
-			.withCredentials(new EnvironmentVariableCredentialsProvider())
+			.withCredentials(GlobalVariables.AWS_CREDENTIALS)
 			.withRegion(GlobalVariables.AWS_REGION)
 			.build();
 	

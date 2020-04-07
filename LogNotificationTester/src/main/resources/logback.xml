@@ -9,7 +9,6 @@
 			<region>${AWS_REGION}</region>
 		</awsConfig>
 		
-		<createLogGroup>true</createLogGroup>
 		<groupName>test</groupName>
 		<streamName>testStream</streamName>
 		

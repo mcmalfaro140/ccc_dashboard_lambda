@@ -1,6 +1,8 @@
 package com.ccc.logs.notifications;
 
 import com.amazonaws.SDKGlobalConfiguration;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 
 /**
  * Contains a set of global variables that are
@@ -12,6 +14,13 @@ public class GlobalVariables {
 	 */
 	private GlobalVariables() {
 	}
+	
+	/**
+	 * The credentials of the AWS account running the Lambda
+	 * function. Will automatically be set in the Lambda
+	 * function's environment variables
+	 */
+	public static final AWSCredentialsProvider AWS_CREDENTIALS = new EnvironmentVariableCredentialsProvider();
 	
 	/**
 	 * The region of the AWS account running the Lambda

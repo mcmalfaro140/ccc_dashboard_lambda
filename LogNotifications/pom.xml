@@ -20,6 +20,7 @@
 		<aws-java-sdk-bom.version>1.11.747</aws-java-sdk-bom.version>
 		<aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
 		<aws-lambda-java-events.version>2.2.7</aws-lambda-java-events.version>
+		<jackson.version>2.9.6</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -95,6 +96,11 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
+		</dependency>
+		<dependency>
+		   <groupId>com.fasterxml.jackson.datatype</groupId>
+		   <artifactId>jackson-datatype-jdk8</artifactId>
+		   <version>${jackson.version}</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -59,8 +59,6 @@ class LogMessage {
 	 * custom fields, then this value
 	 * is <tt>null</tt>
 	 */
-	@JsonSerialize(using=NullableJsonNodeSerializer.class)
-	@JsonDeserialize(using=NullableJsonNodeDeserializer.class)
 	@JsonProperty(value="mdc")
 	private Optional<JsonNode> customFields;
 	

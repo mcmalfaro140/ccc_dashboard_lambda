@@ -39,7 +39,6 @@ class LogAlarmData {
 	 * The data on what keywords should be searched for and
 	 * whether or not all or none need to be found
 	 */
-	@JsonSerialize(using=NullableKeywordDataListSerializer.class)
 	private Optional<KeywordDataList> keywordDataList;
 	
 	/**

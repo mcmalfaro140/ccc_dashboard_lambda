@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 /**
  * Singleton that converts POJOs to/from
@@ -17,6 +18,14 @@ class JsonConverter {
 	 * to/from JSON strings
 	 */
 	private static final ObjectMapper MAPPER = new ObjectMapper();
+	
+	/**
+	 * This static-initialization block can be used to
+	 * configure the {@code ObjectMapper} object
+	 */
+	static {
+		JsonConverter.MAPPER.registerModule(new Jdk8Module());
+	}
 	
 	/**
 	 * Suppresses default constructor
