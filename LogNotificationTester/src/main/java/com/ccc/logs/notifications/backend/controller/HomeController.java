@@ -25,16 +25,28 @@ public class HomeController {
      * @return An arbitrary string. Its value
      * does not matter
      */
-    @GetMapping(path="/", produces="text/plain")
-    public String hello() {
+    @GetMapping(path="/test1", produces="text/plain")
+    public String test1() {
     	MDC.put("testKey", "testValue");
     	MDC.put("thing", "stuff");
     	this.logger.error("message0");
         this.logger.warn("message1");
         MDC.remove("testKey");
         this.logger.info("message2,message3");
-        MDC.remove("testKey");
         
-        return "Hello World in Spring Boot";
+        return "Test1";
+    }
+    
+    @GetMapping(path="/test2", produces="text/plain")
+    public String test2() {
+    	MDC.put("1", "2");
+    	MDC.put("3", "4");
+    	this.logger.error("Hello");
+    	MDC.remove("1");
+    	this.logger.warn("Cheese");
+    	MDC.remove("3");
+    	this.logger.info("T-Rex");
+    	
+    	return "Test2";
     }
 }
