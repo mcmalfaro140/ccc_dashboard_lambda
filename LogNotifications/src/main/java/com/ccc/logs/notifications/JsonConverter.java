@@ -2,7 +2,9 @@ package com.ccc.logs.notifications;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
@@ -77,6 +79,14 @@ class JsonConverter {
 	public static <T> T parse(String json, Class<T> type) {
 		try {
 			return JsonConverter.MAPPER.readValue(json, type);
+		} catch (IOException ex) {
+			throw new LogNotificationException("Error while parsing JSON data", ex);
+		}
+	}
+	
+	public static JsonNode parse(String json) {
+		try {
+			return JsonConverter.MAPPER.readTree(json);
 		} catch (IOException ex) {
 			throw new LogNotificationException("Error while parsing JSON data", ex);
 		}

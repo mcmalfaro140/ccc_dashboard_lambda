@@ -25,7 +25,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
 	 * will catch it and send some notifications
 	 * indicating the exception happened
 	 * @param context The Lambda execution environment context object
-	 * @return 0 if no exception occurred, otherwise 1
+	 * @return 1 if an exception occurred, otherwise 0
 	 */
     @Override
     public Integer handleRequest(Object input, Context context) {

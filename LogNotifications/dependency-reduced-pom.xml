@@ -14,7 +14,7 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
-          <encoding>UTF-8</encoding>
+          <encoding>${project.build.sourceEncoding}</encoding>
           <forceJavacCompilerUse>true</forceJavacCompilerUse>
           <showWarnings>true</showWarnings>
         </configuration>
