@@ -49,7 +49,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 				"FROM LogAlarms LA " +
 				"NATURAL JOIN XRefLogAlarmLogGroup " +
 				"NATURAL JOIN LogGroups LG " +
-				"NATURAL JOIN XRefLogAlarmSNSTopic " +
+				"NATURAL JOIN XRefUserLogAlarmSNSTopic " +
 				"NATURAL JOIN SNSTopics ST " +
 				"NATURAL JOIN XRefLogAlarmKeyword " +
 				"NATURAL JOIN Keywords K " +
