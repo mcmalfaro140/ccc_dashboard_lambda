@@ -84,6 +84,14 @@ class JsonConverter {
 		}
 	}
 	
+	/**
+	 * Converts the {@code String} to a
+	 * {@code JsonNode}
+	 * @param json The {@code String} containing the
+	 * JSON data to be parsed
+	 * @return A {@code JsonNode} containing the same
+	 * data as the string
+	 */
 	public static JsonNode parse(String json) {
 		try {
 			return JsonConverter.MAPPER.readTree(json);
