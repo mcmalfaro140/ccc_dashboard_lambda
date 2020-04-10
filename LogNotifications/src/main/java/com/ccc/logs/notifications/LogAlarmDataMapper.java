@@ -75,7 +75,7 @@ class LogAlarmDataMapper {
 			return Optional.ofNullable(new KeywordDataList(keywordData, relationship.get()));
 		}
 		
-		return null;
+		return Optional.empty();
 	}
 	
 	/**
