@@ -14,11 +14,11 @@ class LevelComparer {
 	/**
 	 * Compares a given log's level
 	 * to certain log level criteria
-	 * @param level The level of the
+	 * @param levelOfLogMessage The level of the
 	 * given log
-	 * @param logLevelCriteria The
-	 * criteria to compare the given
-	 * log's level to
+	 * @param levelOfLogAlarm The level to compare
+	 * the given log to
+	 * @param comparison The method of comparing log levels
 	 * @return <tt>true</tt> if the
 	 * given log's level meets the given
 	 * criteria, <tt>false</tt> otherwise
