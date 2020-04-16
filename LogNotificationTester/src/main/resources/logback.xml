@@ -3,10 +3,10 @@
 	<appender name="cloud-watch" class="io.github.dibog.AwsLogAppender">
 		<awsConfig>
 			<credentials>
-				<accessKeyId>AKIASIHHESZE3KPGO5PB</accessKeyId>
-				<secretAccessKey>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</secretAccessKey>
+				<accessKeyId>${AWS_ACCESS_KEY_ID}</accessKeyId>
+				<secretAccessKey>${AWS_SECRET_ACCESS_KEY}</secretAccessKey>
 			</credentials>
-			<region>us-west-1</region>
+			<region>${AWS_REGION}</region>
 		</awsConfig>
 		
 		<createLogGroup>true</createLogGroup>
