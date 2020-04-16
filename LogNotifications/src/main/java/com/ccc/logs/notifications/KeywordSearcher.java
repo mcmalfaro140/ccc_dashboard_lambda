@@ -74,6 +74,13 @@ class KeywordSearcher {
 		return false;
 	}
 	
+	/**
+	 * Performs a case-insensitive search for a word in a string
+	 * @param str The string to be searched
+	 * @param searchStr The word to search for
+	 * @return <tt>true</tt> if the given word is contained in the
+	 * given string, <tt>false</tt> otherwise
+	 */
 	private static boolean _containsIgnoreCase(String str, String searchStr) {
 		final int lengthOfSearchStr = searchStr.length();
 

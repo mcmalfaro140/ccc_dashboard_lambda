@@ -40,7 +40,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 	 * conditions
 	 */
 	public List<LogAlarmData> getLogAlarms(String logGroup) {
-		String sql = 
+		final String sql = 
 				"SELECT LA.LogAlarmId, LA.LogLevel, LA.Comparison, LA.KeywordRelationship, " +
 				"GROUP_CONCAT(DISTINCT ST.SNSTopicId) AS SNSTopicIds, " +
 				"GROUP_CONCAT(DISTINCT ST.TopicArn) AS TopicArns, " +
