@@ -8,7 +8,7 @@ class SNSTopicData {
 	/**
 	 * SQL ID for this Amazon SNS Topic
 	 */
-	private int snsTopicId;
+	private Long snsTopicId;
 	
 	/**
 	 * The Amazon SNS Topic ARN for this
@@ -24,7 +24,7 @@ class SNSTopicData {
 	 * @param topicArn The Topic ARN for this
 	 * SNS Topic
 	 */
-	public SNSTopicData(int snsTopicId, String topicArn) {
+	public SNSTopicData(Long snsTopicId, String topicArn) {
 		this.snsTopicId = snsTopicId;
 		this.topicArn = topicArn;
 	}
@@ -33,7 +33,7 @@ class SNSTopicData {
 	 * Returns the SQL ID for this SNS Topic
 	 * @return The SQL ID for this SNS Topic
 	 */
-	public int getSNSTopicId() {
+	public Long getSNSTopicId() {
 		return this.snsTopicId;
 	}
 	

@@ -29,7 +29,7 @@ class LogAlarmDataMapper {
 		LinkedList<LogAlarmData> logAlarmList = new LinkedList<LogAlarmData>();
 		
 		while (set.next()) {				
-			int logAlarmId = set.getInt("LogAlarmId");
+			Long logAlarmId = set.getLong("LogAlarmId");
 			
 			if (0 == logAlarmId) {
 				return logAlarmList;
@@ -63,7 +63,7 @@ class LogAlarmDataMapper {
 		Optional<String> relationship = Optional.ofNullable(set.getString("KeywordRelationship"));
 		
 		if (keywords.isPresent()) {
-			int[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
+			Long[] keywordIdList = LogAlarmDataMapper._makeArrayOfIds(keywordIds);
 			String[] keywordList = keywords.get().split(",");
 			
 			LinkedList<KeywordData> keywordData = new LinkedList<KeywordData>();
@@ -72,7 +72,7 @@ class LogAlarmDataMapper {
 				keywordData.add(new KeywordData(keywordIdList[index], keywordList[index]));
 			}
 			
-			return Optional.ofNullable(new KeywordDataList(keywordData, relationship.get()));
+			return Optional.of(new KeywordDataList(keywordData, relationship.get()));
 		}
 		
 		return Optional.empty();
@@ -92,7 +92,7 @@ class LogAlarmDataMapper {
 		String snsTopicIds = set.getString("SNSTopicIds");
 		String topicArns = set.getString("TopicArns");
 		
-		int[] snsTopicIdList = LogAlarmDataMapper._makeArrayOfIds(snsTopicIds);
+		Long[] snsTopicIdList = LogAlarmDataMapper._makeArrayOfIds(snsTopicIds);
 		String[] topicArnList = topicArns.split(",");
 		
 		return LogAlarmDataMapper._makeSNSTopicDataList(snsTopicIdList, topicArnList);
@@ -107,12 +107,12 @@ class LogAlarmDataMapper {
 	 * the SQL IDs of Amazon SNS Topics listed in the
 	 * "snsTopicIds" parameter
 	 */
-	private static int[] _makeArrayOfIds(String str) {
+	private static Long[] _makeArrayOfIds(String str) {
 		String[] stringArray = str.split(",");
-		int[] intArray = new int[stringArray.length];
+		Long[] intArray = new Long[stringArray.length];
 		
 		for (int index = 0; index < stringArray.length; ++index) {
-			intArray[index] = Integer.parseInt(stringArray[index]);
+			intArray[index] = Long.parseLong(stringArray[index]);
 		}
 		
 		return intArray;
@@ -127,7 +127,7 @@ class LogAlarmDataMapper {
 	 * @return An array of data on Amazon SNS Topics which describe
 	 * some Amazon SNS Topics
 	 */
-	private static SNSTopicData[] _makeSNSTopicDataList(int[] snsTopicIdList, String[] topicArnList) {
+	private static SNSTopicData[] _makeSNSTopicDataList(Long[] snsTopicIdList, String[] topicArnList) {
 		SNSTopicData[] snsTopicDataList = new SNSTopicData[topicArnList.length];
 		
 		for (int index = 0; index < topicArnList.length; ++index) {

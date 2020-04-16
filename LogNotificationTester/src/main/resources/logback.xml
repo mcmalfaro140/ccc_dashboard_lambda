@@ -9,6 +9,7 @@
 			<region>${AWS_REGION}</region>
 		</awsConfig>
 		
+		<createLogGroup>true</createLogGroup>
 		<groupName>test</groupName>
 		<streamName>testStream</streamName>
 		
@@ -19,7 +20,7 @@
 	    </layout>
 	</appender>
 	
-	<root level="info">
+	<root level="warn">
 		<appender-ref ref="cloud-watch" />
 	</root>
 	

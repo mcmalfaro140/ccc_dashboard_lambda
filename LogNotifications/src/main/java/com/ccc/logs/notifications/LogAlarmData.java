@@ -13,7 +13,7 @@ class LogAlarmData {
 	/**
 	 * SQL ID for the log alarm
 	 */
-	private int logAlarmId;
+	private Long logAlarmId;
 	
 	/**
 	 * Represent the level of log that
@@ -52,7 +52,7 @@ class LogAlarmData {
 	 * alarm
 	 */
 	public LogAlarmData(
-			int logAlarmId,
+			Long logAlarmId,
 			LogLevel logLevel,
 			String comparison,
 			SNSTopicData[] snsTopicDataList,
@@ -69,7 +69,7 @@ class LogAlarmData {
 	 * Returns the SQL ID of this log alarm
 	 * @return The SQL ID of this log alarm
 	 */
-	public int getLogAlarmId() {
+	public Long getLogAlarmId() {
 		return this.logAlarmId;
 	}
 	

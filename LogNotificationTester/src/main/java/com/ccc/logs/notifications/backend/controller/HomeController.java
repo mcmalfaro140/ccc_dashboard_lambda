@@ -1,9 +1,7 @@
 package com.ccc.logs.notifications.backend.controller;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,27 +23,24 @@ public class HomeController {
      * @return An arbitrary string. Its value
      * does not matter
      */
-    @GetMapping(path="/test1", produces="text/plain")
+    @GetMapping(path="/error1", produces="text/plain")
     public String test1() {
-    	MDC.put("testKey", "testValue");
-    	MDC.put("thing", "stuff");
     	this.logger.error("message0");
-        this.logger.warn("message1");
-        MDC.remove("testKey");
-        this.logger.info("message2,message3");
         
         return "Test1";
     }
     
-    @GetMapping(path="/test2", produces="text/plain")
+    @GetMapping(path="/errorNull", produces="text/plain")
+    public String erroNull() {
+    	this.logger.error("error messsage containing null");
+        
+        return "Test3";
+    }
+    
+    @GetMapping(path="/warn", produces="text/plain")
     public String test2() {
-    	MDC.put("1", "2");
-    	MDC.put("3", "4");
-    	this.logger.error("Hello");
-    	MDC.remove("1");
+    	this.logger.warn("Hello");
     	this.logger.warn("Cheese");
-    	MDC.remove("3");
-    	this.logger.info("T-Rex");
     	
     	return "Test2";
     }

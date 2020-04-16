@@ -1,15 +1,15 @@
 package com.ccc.logs.notifications;
 
 public class KeywordData {
-	private int keywordId;
+	private Long keywordId;
 	private String word;
 	
-	public KeywordData(int keywordId, String word) {
+	public KeywordData(Long keywordId, String word) {
 		this.keywordId = keywordId;
 		this.word = word;
 	}
 	
-	public int getKeywordId() {
+	public Long getKeywordId() {
 		return this.keywordId;
 	}
 	
