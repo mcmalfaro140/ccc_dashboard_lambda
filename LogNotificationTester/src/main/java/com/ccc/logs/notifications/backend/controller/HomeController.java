@@ -35,6 +35,7 @@ public class HomeController {
     public String test2() {
     	this.logger.warn("Hello");
     	this.logger.warn("Cheese");
+    	this.logger.warn("new null");
     	
     	return "Test2";
     }

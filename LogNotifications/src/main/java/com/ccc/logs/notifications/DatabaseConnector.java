@@ -51,9 +51,10 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 				"NATURAL JOIN LogGroups LG " +
 				"NATURAL JOIN XRefLogAlarmSNSTopic " +
 				"NATURAL JOIN SNSTopics ST " +
-				"NATURAL JOIN XRefLogAlarmKeyword " +
-				"NATURAL JOIN Keywords K " +
-				"WHERE LG.Name = ?;";
+				"LEFT JOIN XRefLogAlarmKeyword XRLAK ON LA.LogAlarmId = XRLAK.LogAlarmId " +
+				"LEFT JOIN Keywords K ON XRLAK.KeywordId = K.KeywordId " +
+				"WHERE LG.Name = ?" +
+				"GROUP BY LA.LogAlarmId;";
 		
 		try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
 			stmt.setString(1, logGroup);
