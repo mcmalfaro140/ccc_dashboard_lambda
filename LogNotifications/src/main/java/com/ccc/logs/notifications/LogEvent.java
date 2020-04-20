@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 class LogEvent {
 	/**
-	 * The generated unique ID for this log
+	 * The generated, unique ID for this log
 	 * event
 	 */
 	private String id;

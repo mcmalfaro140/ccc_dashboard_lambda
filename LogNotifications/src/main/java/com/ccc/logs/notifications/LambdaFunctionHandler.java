@@ -2,7 +2,7 @@ package com.ccc.logs.notifications;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Objects;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -30,7 +30,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     @Override
     public Integer handleRequest(Object input, Context context) {
     	LogData logData = null;
-    	List<LogAlarmData> logAlarmList = null;
+    	LinkedList<LogAlarmData> logAlarmList = null;
     	StringBuilder cloudwatchLogData = new StringBuilder();
     	
     	try {
@@ -41,7 +41,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
         	return 0;
     	} catch (Throwable e) {
     		String stackTrace = this._getStackTraceAsString(e);
-    		String exceptionMessage = "An exception occurred. Some messages may not have been sent\n" + stackTrace;
+    		String exceptionMessage = "An exception occurred. Some messages may not have been sent\n\n" + stackTrace;
     		
     		cloudwatchLogData.append(exceptionMessage);
     		AmazonSNSWrapper.publishToSNS(GlobalVariables.EXCEPTION_SNS_TOPIC_ARN, exceptionMessage);
@@ -71,7 +71,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      * specified in the log data for this invocation of the
      * Lambda function
      */
-    private List<LogAlarmData> _getLogAlarms(LogData logData) {
+    private LinkedList<LogAlarmData> _getLogAlarms(LogData logData) {
     	try (DatabaseConnector conn = new DatabaseConnector()) {
     		return conn.getLogAlarms(logData.getLogGroup());
     	}
@@ -88,7 +88,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      * @param logger The AWS CloudWatch logger to use if any log
      * alarms are triggered
      */
-    private void _handleLogEvents(LogData logData, List<LogAlarmData> logAlarmList, StringBuilder cloudwatchLogData) {  
+    private void _handleLogEvents(LogData logData, LinkedList<LogAlarmData> logAlarmList, StringBuilder cloudwatchLogData) {  
     	if (!logAlarmList.isEmpty()) {
     		StringBuilder publishResults = new StringBuilder();
     		
@@ -98,6 +98,8 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     			for (LogAlarmData logAlarm : logAlarmList) {
     				if (this._checkAlarm(logMessage, logAlarm)) {
     					for (SNSTopicData snsTopicData : logAlarm.getSNSTopicDataList()) {
+    						String topicName = this._extractTopicName(snsTopicData.getTopicArn());
+    						
     						PublishResult result = AmazonSNSWrapper.publishToSNS(
     								snsTopicData.getTopicArn(),
     								logMessage.toString(),
@@ -105,10 +107,11 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     								logData.getLogStream()
     						);
     						String publishResultData = String.format(
-    				    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d\n",
+    				    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d\nTopic Name: %s\n",
     				    			result.getMessageId(),
     				    			result.getSdkResponseMetadata().getRequestId(),
-    				    			result.getSdkHttpMetadata().getHttpStatusCode()
+    				    			result.getSdkHttpMetadata().getHttpStatusCode(),
+    				    			topicName
     				    	);
     						
     						publishResults.append(publishResultData);
@@ -119,6 +122,18 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     		
     		cloudwatchLogData.append(publishResults);
     	}
+    }
+    
+    /**
+     * Extracts the SNS topic name from the topic ARN
+     * @param topicArn The topic ARN to have its name extracted
+     * @return The name of the given topic ARN
+     */
+    private String _extractTopicName(String topicArn) {
+    	String[] topicArnParts = topicArn.split(":");
+		String topicName = topicArnParts[topicArnParts.length - 1];
+		
+		return topicName;
     }
     
     /**
