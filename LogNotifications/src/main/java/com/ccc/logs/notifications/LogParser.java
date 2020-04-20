@@ -40,7 +40,7 @@ class LogParser {
 	 * @return The decompressed input
 	 */
 	private static String _decodeInput(Object input) {
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings(value="unchecked")
 		Map<String, Map<String, String>> map = (Map<String, Map<String, String>>)input;
 		String awsData = map.get("awslogs").get("data");
 		byte[] compressed = awsData.getBytes(StandardCharsets.US_ASCII);

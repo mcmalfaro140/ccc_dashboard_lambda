@@ -29,7 +29,7 @@ class AmazonSNSWrapper {
 	 * The first text to appear in all messages sent by this
 	 * Lambda function
 	 */
-	private static final String MESSAGE_BODY_INTRO = "The following log was sent to CloudWatch:";
+	private static final String MESSAGE_BODY_INTRO = "The following log was sent to CloudWatch:\n\n";
 	
 	/**
 	 * Suppresses default constructor
@@ -44,9 +44,9 @@ class AmazonSNSWrapper {
 	 * @return The response object of the SNS publish request that is performed
 	 */
 	public static PublishResult publishToSNS(String snsTopicArn, String message) {
-		message = AmazonSNSWrapper.MESSAGE_BODY_INTRO + "\n\n" + message;
+		String finalMessage = AmazonSNSWrapper.MESSAGE_BODY_INTRO + message;
 			
-		PublishRequest request = new PublishRequest(snsTopicArn, message, AmazonSNSWrapper.MESSAGE_SUBJECT);
+		PublishRequest request = new PublishRequest(snsTopicArn, finalMessage, AmazonSNSWrapper.MESSAGE_SUBJECT);
 		PublishResult result = AmazonSNSWrapper.SNS_CLIENT.publish(request);
 		
 		return result;
@@ -63,9 +63,9 @@ class AmazonSNSWrapper {
 	 * @return
 	 */
 	public static PublishResult publishToSNS(String snsTopicArn, String message, String logGroup, String logStream) {
-		String str = String.format("%s\n\nLog Group: %s\nLog Stream: %s\n%s", AmazonSNSWrapper.MESSAGE_BODY_INTRO, logGroup, logStream, message);
+		String finalMessage = String.format("%sLog Group: %s\nLog Stream: %s\n%s", AmazonSNSWrapper.MESSAGE_BODY_INTRO, logGroup, logStream, message);
 		
-		PublishRequest request = new PublishRequest(snsTopicArn, str, AmazonSNSWrapper.MESSAGE_SUBJECT);
+		PublishRequest request = new PublishRequest(snsTopicArn, finalMessage, AmazonSNSWrapper.MESSAGE_SUBJECT);
 		PublishResult result = AmazonSNSWrapper.SNS_CLIENT.publish(request);
 		
 		return result;

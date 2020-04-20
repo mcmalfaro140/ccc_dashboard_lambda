@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * Represents the possible log levels for
  * each log level. The values must be
- * written from top to bottom in order of
- * severity
+ * written from top to bottom from least
+ * severe to most severe
  */
 @JsonFormat(shape=JsonFormat.Shape.STRING)
-public enum LogLevel {
+enum LogLevel {
 	/**
 	 * Used for very detailed, high-volume logging.
 	 * Should not be used very often, even during
@@ -28,9 +28,9 @@ public enum LogLevel {
 	DEBUG,
 	
 	/**
-	 * things we want to see at high volume in case we
+	 * Things we want to see at high volume in case we
 	 * need to forensically analyze an issue. Typical
-	 * business exceptions and Any other event you think
+	 * business exceptions and any other event you think
 	 * you'll need to see in production at high volume
 	 * can go here
 	 */
@@ -39,9 +39,9 @@ public enum LogLevel {
 	/**
 	 * An unexpected technical or business event happened,
 	 * customers may be affected, but probably no immediate
-	 * human intervention is required. On call people won't
-	 * be called immediately, but support personnel will wan
-	 * to review these issues asap to understand what the
+	 * human intervention is required. On-call people won't
+	 * be called immediately, but support personnel will want
+	 * to review these issues ASAP to understand what the
 	 * impact is. Basically any issue that needs to be tracked
 	 * but may not require immediate intervention
 	 */

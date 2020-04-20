@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Wrapper class for the object that holds the connection
@@ -39,7 +39,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 	 * @return A list of log alarms and their trigger
 	 * conditions
 	 */
-	public List<LogAlarmData> getLogAlarms(String logGroup) {
+	public LinkedList<LogAlarmData> getLogAlarms(String logGroup) {
 		final String sql = 
 				"SELECT LA.LogAlarmId, LA.LogLevel, LA.Comparison, LA.KeywordRelationship, " +
 				"GROUP_CONCAT(DISTINCT ST.SNSTopicId) AS SNSTopicIds, " +
