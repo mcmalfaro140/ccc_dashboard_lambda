@@ -59,7 +59,7 @@ class LogMessage {
 	 * custom fields, then this value
 	 * is <tt>null</tt>
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonInclude(value=JsonInclude.Include.NON_EMPTY)
 	private Optional<JsonNode> mdc;
 	
 	/**

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="cloud-watch" class="io.github.dibog.AwsLogAppender">
+		<awsConfig>
+			<credentials>
+				<accessKeyId>${AWS_ACCESS_KEY_ID}</accessKeyId>
+				<secretAccessKey>${AWS_SECRET_ACCESS_KEY}</secretAccessKey>
+			</credentials>
+			<region>${AWS_REGION}</region>
+		</awsConfig>
+		
+		<createLogGroup>true</createLogGroup>
+		<groupName>any log group here</groupName>
+		<streamName>any log stream here</streamName>
+		
+		<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+	        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+	        	<prettyPrint>true</prettyPrint>
+	        </jsonFormatter>
+	    </layout>
+	</appender>
+	
+	<root level="warn">
+		<appender-ref ref="cloud-watch" />
+	</root>
+	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+	    <encoder>
+	     	 <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+	    </encoder>
+  	</appender>
+
+	<root level="info">
+		<appender-ref ref="console" />
+	</root>
+</configuration>

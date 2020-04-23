@@ -28,7 +28,7 @@ enum LogLevel {
 	DEBUG,
 	
 	/**
-	 * Things we want to see at high volume in case we
+	 * Things we want to see at high volume in case you
 	 * need to forensically analyze an issue. Typical
 	 * business exceptions and any other event you think
 	 * you'll need to see in production at high volume
@@ -50,7 +50,7 @@ enum LogLevel {
 	/**
 	 * System is in distress, customers are probably being
 	 * affected and the fix probably requires human intervention.
-	 * The "2AM rule" applies here- if you're on call, do you
+	 * The "2AM rule" applies here. If you're on-call, do you
 	 * want to be woken up at 2AM if this condition happens?
 	 * If yes, then log it as "error".
 	 */
