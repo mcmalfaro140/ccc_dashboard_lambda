@@ -40,11 +40,7 @@ class LogAlarmData {
 	 * this log alarm
 	 * alarm
 	 */
-	public LogAlarmData(
-			String[] snsTopicArnList,
-			LogLevelData logLevelData,
-			Optional<KeywordData> keywordData
-	) {
+	public LogAlarmData(String[] snsTopicArnList, LogLevelData logLevelData, Optional<KeywordData> keywordData) {
 		this.logLevelData = logLevelData;
 		this.snsTopicArnList = snsTopicArnList;
 		this.keywordData = keywordData;

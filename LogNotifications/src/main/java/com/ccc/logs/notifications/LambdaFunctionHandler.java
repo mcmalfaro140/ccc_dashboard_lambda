@@ -98,7 +98,8 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     			
     			for (LogAlarmData logAlarm : logAlarmList) {
     				if (this._checkAlarm(logMessage, logAlarm)) {
-    					for (String snsTopicArn : logAlarm.getSNSTopicArnList()) {    						
+    					for (String snsTopicArn : logAlarm.getSNSTopicArnList()) {
+    						
     						PublishResult result = AmazonSNSWrapper.publishToSNS(
     								snsTopicArn,
     								logMessage.toString(),
