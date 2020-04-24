@@ -14,7 +14,7 @@ class LogAlarmDataMapper {
 	 * Suppresses default constructor
 	 */
 	private LogAlarmDataMapper() {
-		throw new LogNotificationException("No instances of LogAlarmDataMapper should be made");
+		throw new LogNotificationError("No instances of LogAlarmDataMapper should be made");
 	}
 	
 	/**

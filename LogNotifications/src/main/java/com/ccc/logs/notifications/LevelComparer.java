@@ -9,7 +9,7 @@ class LevelComparer {
 	 * Suppresses default constructor
 	 */
 	private LevelComparer() {
-		throw new LogNotificationException("No instances of LevelComparer should be made");
+		throw new LogNotificationError("No instances of LevelComparer should be made");
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class LevelComparer {
 		case ">=":
 			return levelOfLogMessage.ordinal() >= logLevelData.getLevel().ordinal();
 		default:
-			throw new LogNotificationException("Error while comparing log levels");
+			throw new LogNotificationError("Error while comparing log levels");
 		}
 	}
 }

@@ -19,7 +19,7 @@ class LogParser {
 	 * Suppresses default constructor
 	 */
 	private LogParser() {
-		throw new LogNotificationException("No instances of LogParser should be made");
+		throw new LogNotificationError("No instances of LogParser should be made");
 	}
 	
 	/**
@@ -60,7 +60,7 @@ class LogParser {
 				}
 			}
 		} catch (IOException e) {
-			throw new LogNotificationException("Failed to decompress content", e);
+			throw new LogNotificationError("Failed to decompress content", e);
 		}
 	}
 }

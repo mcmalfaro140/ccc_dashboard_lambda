@@ -29,7 +29,7 @@ class JsonConverter {
 	 * Suppresses default constructor
 	 */
 	private JsonConverter() {
-		throw new LogNotificationException("No instances of JsonConverter should be made");
+		throw new LogNotificationError("No instances of JsonConverter should be made");
 	}
 	
 	/**
@@ -43,7 +43,7 @@ class JsonConverter {
 		try {
 			return JsonConverter.MAPPER.writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
-			throw new LogNotificationException("Error while converting object to JSON string", ex);
+			throw new LogNotificationError("Error while converting object to JSON string", ex);
 		}
 	}
 	
@@ -59,7 +59,7 @@ class JsonConverter {
 		try {
 			return JsonConverter.MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 		} catch (JsonProcessingException ex) {
-			throw new LogNotificationException("Error while converting object to pretty JSON string", ex);
+			throw new LogNotificationError("Error while converting object to pretty JSON string", ex);
 		}
 	}
 	
@@ -79,7 +79,7 @@ class JsonConverter {
 		try {
 			return JsonConverter.MAPPER.readValue(json, type);
 		} catch (IOException ex) {
-			throw new LogNotificationException("Error while parsing JSON data", ex);
+			throw new LogNotificationError("Error while parsing JSON data", ex);
 		}
 	}
 	
@@ -95,7 +95,7 @@ class JsonConverter {
 		try {
 			return JsonConverter.MAPPER.readTree(json);
 		} catch (IOException ex) {
-			throw new LogNotificationException("Error while parsing JSON data", ex);
+			throw new LogNotificationError("Error while parsing JSON data", ex);
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
         			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
         			context.getMemoryLimitInMB(),
         			context.getRemainingTimeInMillis(),
-        			Objects.toString(logData, input.get("awslogs").get("data")),
+        			Objects.toString(logData, "Log Data Not Obtained: " + input.get("awslogs").get("data")),
         			Objects.toString(logAlarmList, "Log Alarms Not Obtained")
         	);
     		
@@ -98,9 +98,7 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     			
     			for (LogAlarmData logAlarm : logAlarmList) {
     				if (this._checkAlarm(logMessage, logAlarm)) {
-    					for (String snsTopicArn : logAlarm.getSNSTopicArnList()) {
-    						String topicName = this._extractTopicName(snsTopicArn);
-    						
+    					for (String snsTopicArn : logAlarm.getSNSTopicArnList()) {    						
     						PublishResult result = AmazonSNSWrapper.publishToSNS(
     								snsTopicArn,
     								logMessage.toString(),
@@ -112,7 +110,7 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     				    			result.getMessageId(),
     				    			result.getSdkResponseMetadata().getRequestId(),
     				    			result.getSdkHttpMetadata().getHttpStatusCode(),
-    				    			topicName
+    				    			snsTopicArn
     				    	);
     						
     						publishResults.append(publishResultData);
@@ -123,18 +121,6 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     		
     		cloudwatchLogData.append(publishResults);
     	}
-    }
-    
-    /**
-     * Extracts the SNS topic name from the topic ARN
-     * @param topicArn The topic ARN to have its name extracted
-     * @return The name of the given topic ARN
-     */
-    private String _extractTopicName(String topicArn) {
-    	String[] topicArnParts = topicArn.split(":");
-		String topicName = topicArnParts[topicArnParts.length - 1];
-		
-		return topicName;
     }
     
     /**

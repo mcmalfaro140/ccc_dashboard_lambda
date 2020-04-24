@@ -13,7 +13,7 @@ public class GlobalVariables {
 	 * Suppresses default constructor
 	 */
 	private GlobalVariables() {
-		throw new LogNotificationException("No instances of GlobalVariables should be made");
+		throw new LogNotificationError("No instances of GlobalVariables should be made");
 	}
 	
 	/**

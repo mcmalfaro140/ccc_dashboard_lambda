@@ -27,7 +27,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 			Class.forName("com.mysql.cj.jdbc.Driver");
         	this.conn = DriverManager.getConnection(GlobalVariables.DATABASE_URL, GlobalVariables.DATABASE_USERNAME, GlobalVariables.DATABASE_PASSWORD);
 		} catch (SQLException|ClassNotFoundException ex) {
-			throw new LogNotificationException("Error while connecting to database", ex);
+			throw new LogNotificationError("Error while connecting to database", ex);
 		}
 	}
 	
@@ -41,17 +41,17 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 	 */
 	public LinkedList<LogAlarmData> getLogAlarms(String logGroup) {
 		final String sql = 
-				"SELECT LA.LogLevel, LA.Comparison, LA.KeywordRelationship, " +
-				"GROUP_CONCAT(DISTINCT ST.TopicArn) AS TopicArns, " +
-				"GROUP_CONCAT(DISTINCT K.Word) AS Keywords " +
+				"SELECT LogLevel, Comparison, KeywordRelationship, " +
+				"GROUP_CONCAT(DISTINCT TopicArn) AS TopicArns, " +
+				"GROUP_CONCAT(DISTINCT Word) AS Keywords " +
 				"FROM LogAlarms LA " +
 				"NATURAL JOIN XRefLogAlarmLogGroup " +
-				"NATURAL JOIN LogGroups LG " +
+				"NATURAL JOIN LogGroups " +
 				"NATURAL JOIN XRefLogAlarmSNSTopic " +
-				"NATURAL JOIN SNSTopics ST " +
+				"NATURAL JOIN SNSTopics " +
 				"LEFT JOIN XRefLogAlarmKeyword XRLAK ON LA.LogAlarmId = XRLAK.LogAlarmId " +
 				"LEFT JOIN Keywords K ON XRLAK.KeywordId = K.KeywordId " +
-				"WHERE LG.Name = ? " +
+				"WHERE Name = ? " +
 				"GROUP BY LA.LogAlarmId;";
 		
 		try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
@@ -61,7 +61,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 				return LogAlarmDataMapper.mapResultSet(set);
 			}
 		} catch (SQLException ex) {
-			throw new LogNotificationException("Error while querying database", ex);
+			throw new LogNotificationError("Error while querying database", ex);
 		}
 	}
 	
@@ -74,7 +74,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 		try {
 			this.conn.close();
 		} catch (SQLException ex) {
-			throw new LogNotificationException("Error while closing connection to database");
+			throw new LogNotificationError("Error while closing connection to database");
 		}
 	}
 }

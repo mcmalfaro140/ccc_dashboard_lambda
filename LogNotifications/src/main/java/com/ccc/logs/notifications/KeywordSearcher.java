@@ -11,7 +11,7 @@ class KeywordSearcher {
 	 * Suppresses default constructor
 	 */
 	private KeywordSearcher() {
-		throw new LogNotificationException("No instances of KeywordSearcher should be made");
+		throw new LogNotificationError("No instances of KeywordSearcher should be made");
 	}
 	
 	/**
@@ -33,7 +33,7 @@ class KeywordSearcher {
 			case "ALL":
 				return KeywordSearcher._allSearch(message, keywordData.getWordList());
 			default:
-				throw new LogNotificationException("Invalid value for keyword relationship");
+				throw new LogNotificationError("Invalid value for keyword relationship");
 			}
 		}
 			
