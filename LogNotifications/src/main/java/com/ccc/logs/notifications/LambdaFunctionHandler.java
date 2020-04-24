@@ -89,14 +89,13 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
      * @param logger The AWS CloudWatch logger to use if any log
      * alarms are triggered
      */
-    private void _handleLogEvents(LogData logData, LinkedList<LogAlarmData> logAlarmList, StringBuilder cloudwatchLogData) {  
-    	if (!logAlarmList.isEmpty()) {
+    private void _handleLogEvents(LogData logData, LinkedList<LogAlarmData> logAlarmList, StringBuilder cloudwatchLogData) {
     		StringBuilder publishResults = new StringBuilder();
     		
-    		for (LogEvent logEvent : logData.getLogEvents()) {
-    			LogMessage logMessage = logEvent.getMessage();
-    			
-    			for (LogAlarmData logAlarm : logAlarmList) {
+    		for (LogAlarmData logAlarm : logAlarmList) {			
+    			for (LogEvent logEvent : logData.getLogEvents()) {
+    				LogMessage logMessage = logEvent.getMessage();
+    				
     				if (this._checkAlarm(logMessage, logAlarm)) {
     					for (String snsTopicArn : logAlarm.getSNSTopicArnList()) {
     						
@@ -107,7 +106,7 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     								logData.getLogStream()
     						);
     						String publishResultData = String.format(
-    				    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d\nTopic Name: %s\n",
+    				    			"SNS Message Id: %s\nAWS Request Id for SNS message: %s\nHTTP Status Code: %d\nTopic ARN: %s\n",
     				    			result.getMessageId(),
     				    			result.getSdkResponseMetadata().getRequestId(),
     				    			result.getSdkHttpMetadata().getHttpStatusCode(),
@@ -121,7 +120,6 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     		}
     		
     		cloudwatchLogData.append(publishResults);
-    	}
     }
     
     /**
