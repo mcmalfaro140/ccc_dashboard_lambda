@@ -42,7 +42,12 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
         	return 0;
     	} catch (Throwable e) {
     		String stackTrace = this._getStackTraceAsString(e);
-    		String exceptionMessage = "An exception occurred. Some messages may not have been sent\n\n" + stackTrace;
+    		String exceptionMessage = String.format(
+    			"An exception occurred. Some messages may not have been sent\n\n%s\n\nLog Data:\n%s\n\nLog Alarms:\n%s",
+    			stackTrace,
+    			Objects.toString(logData, input.get("awslogs").get("data")),
+    			Objects.toString(logAlarmList, "Log Alarms Not Obtained")
+    		);
     		
     		cloudwatchLogData.append(exceptionMessage);    		
     		AmazonSNSWrapper.publishToSNS(GlobalVariables.EXCEPTION_SNS_TOPIC_ARN, exceptionMessage);
