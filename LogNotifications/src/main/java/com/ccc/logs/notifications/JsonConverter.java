@@ -8,8 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 /**
- * Singleton that converts POJOs to/from
- * JSON strings
+ * Contains JSON facilities
  */
 class JsonConverter {	
 	/**
@@ -30,6 +29,7 @@ class JsonConverter {
 	 * Suppresses default constructor
 	 */
 	private JsonConverter() {
+		throw new LogNotificationException("No instances of JsonConverter should be made");
 	}
 	
 	/**

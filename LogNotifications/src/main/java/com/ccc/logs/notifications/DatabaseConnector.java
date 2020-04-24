@@ -41,10 +41,8 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 	 */
 	public LinkedList<LogAlarmData> getLogAlarms(String logGroup) {
 		final String sql = 
-				"SELECT LA.LogAlarmId, LA.LogLevel, LA.Comparison, LA.KeywordRelationship, " +
-				"GROUP_CONCAT(DISTINCT ST.SNSTopicId) AS SNSTopicIds, " +
+				"SELECT LA.LogLevel, LA.Comparison, LA.KeywordRelationship, " +
 				"GROUP_CONCAT(DISTINCT ST.TopicArn) AS TopicArns, " +
-				"GROUP_CONCAT(DISTINCT K.KeywordId) AS KeywordIds, " +
 				"GROUP_CONCAT(DISTINCT K.Word) AS Keywords " +
 				"FROM LogAlarms LA " +
 				"NATURAL JOIN XRefLogAlarmLogGroup " +
@@ -53,7 +51,7 @@ class DatabaseConnector implements Closeable, AutoCloseable {
 				"NATURAL JOIN SNSTopics ST " +
 				"LEFT JOIN XRefLogAlarmKeyword XRLAK ON LA.LogAlarmId = XRLAK.LogAlarmId " +
 				"LEFT JOIN Keywords K ON XRLAK.KeywordId = K.KeywordId " +
-				"WHERE LG.Name = ?" +
+				"WHERE LG.Name = ? " +
 				"GROUP BY LA.LogAlarmId;";
 		
 		try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {

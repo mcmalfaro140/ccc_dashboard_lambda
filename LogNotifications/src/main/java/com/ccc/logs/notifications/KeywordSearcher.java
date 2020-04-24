@@ -1,6 +1,5 @@
 package com.ccc.logs.notifications;
 
-import java.util.LinkedList;
 import java.util.Optional;
 
 /**
@@ -12,6 +11,7 @@ class KeywordSearcher {
 	 * Suppresses default constructor
 	 */
 	private KeywordSearcher() {
+		throw new LogNotificationException("No instances of KeywordSearcher should be made");
 	}
 	
 	/**
@@ -23,15 +23,15 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if the logs meets all of the criteria
 	 * specified in the keyword data, <tt>false</tt> otherwise
 	 */
-	public static boolean search(String message, Optional<KeywordDataList> nullableKeywordDataList) {
-		if (nullableKeywordDataList.isPresent()) {
-			KeywordDataList keywordDataList = nullableKeywordDataList.get();
+	public static boolean search(String message, Optional<KeywordData> nullableKeywordData) {
+		if (nullableKeywordData.isPresent()) {
+			KeywordData keywordData = nullableKeywordData.get();
 			
-			switch (keywordDataList.getRelationship()) {
+			switch (keywordData.getRelationship()) {
 			case "ANY":
-				return KeywordSearcher._anySearch(message, keywordDataList.getKeywordList());
+				return KeywordSearcher._anySearch(message, keywordData.getWordList());
 			case "ALL":
-				return KeywordSearcher._allSearch(message, keywordDataList.getKeywordList());
+				return KeywordSearcher._allSearch(message, keywordData.getWordList());
 			default:
 				throw new LogNotificationException("Invalid value for keyword relationship");
 			}
@@ -47,9 +47,9 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if all keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _allSearch(String message, LinkedList<KeywordData> keywordList) {
-		for (KeywordData keyword : keywordList) {
-			if (!KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
+	private static boolean _allSearch(String message, String[] wordList) {
+		for (String word : wordList) {
+			if (!KeywordSearcher._containsIgnoreCase(message, word)) {
 				return false;
 			}
 		}
@@ -64,9 +64,9 @@ class KeywordSearcher {
 	 * @return <tt>true</tt> if any keywords are present in the
 	 * log message, <tt>false</tt> otherwise
 	 */
-	private static boolean _anySearch(String message, LinkedList<KeywordData> keywordList) {
-		for (KeywordData keyword : keywordList) {
-			if (KeywordSearcher._containsIgnoreCase(message, keyword.getWord())) {
+	private static boolean _anySearch(String message, String[] wordList) {
+		for (String word : wordList) {
+			if (KeywordSearcher._containsIgnoreCase(message, word)) {
 				return true;
 			}
 		}

@@ -9,6 +9,7 @@ class LevelComparer {
 	 * Suppresses default constructor
 	 */
 	private LevelComparer() {
+		throw new LogNotificationException("No instances of LevelComparer should be made");
 	}
 	
 	/**
@@ -16,25 +17,25 @@ class LevelComparer {
 	 * to certain log level criteria
 	 * @param levelOfLogMessage The level of the
 	 * given log
-	 * @param levelOfLogAlarm The level to compare
-	 * the given log to
-	 * @param comparison The method of comparing log levels
+	 * @param logLevelData Contains info on how the
+	 * level of the log alarm is to be compared to
+	 * the level of the log message
 	 * @return <tt>true</tt> if the
 	 * given log's level meets the given
 	 * criteria, <tt>false</tt> otherwise
 	 */
-	public static boolean compare(LogLevel levelOfLogMessage, LogLevel levelOfLogAlarm, String comparison) {		
-		switch (comparison) {
+	public static boolean compare(LogLevel levelOfLogMessage, LogLevelData logLevelData) {
+		switch (logLevelData.getComparison()) {
 		case "==":
-			return levelOfLogMessage.equals(levelOfLogAlarm);
+			return levelOfLogMessage == logLevelData.getLevel();
 		case "<":
-			return levelOfLogMessage.ordinal() < levelOfLogAlarm.ordinal();
+			return levelOfLogMessage.ordinal() < logLevelData.getLevel().ordinal();
 		case ">":
-			return levelOfLogMessage.ordinal() > levelOfLogAlarm.ordinal();
+			return levelOfLogMessage.ordinal() > logLevelData.getLevel().ordinal();
 		case "<=":
-			return levelOfLogMessage.ordinal() <= levelOfLogAlarm.ordinal();
+			return levelOfLogMessage.ordinal() <= logLevelData.getLevel().ordinal();
 		case ">=":
-			return levelOfLogMessage.ordinal() >= levelOfLogAlarm.ordinal();
+			return levelOfLogMessage.ordinal() >= logLevelData.getLevel().ordinal();
 		default:
 			throw new LogNotificationException("Error while comparing log levels");
 		}

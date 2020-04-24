@@ -35,6 +35,7 @@ class AmazonSNSWrapper {
 	 * Suppresses default constructor
 	 */
 	private AmazonSNSWrapper() {
+		throw new LogNotificationException("No instances of AmazonSNSWrapper should be made");
 	}
 	
 	/**

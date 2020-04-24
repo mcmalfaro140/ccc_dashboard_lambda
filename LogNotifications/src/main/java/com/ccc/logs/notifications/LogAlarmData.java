@@ -10,67 +10,44 @@ import java.util.Optional;
  * a log alarm
  */
 class LogAlarmData {
-	/**
-	 * SQL ID for the log alarm
-	 */
-	private Long logAlarmId;
-	
-	/**
-	 * Represent the level of log that
-	 * the log messages are to be compared to
-	 */
-	private LogLevel logLevel;
-	
-	/**
-	 * Represents how the level of the log messages
-	 * are to be compared to the level of this log alarm
-	 */
-	private String comparison;
 	
 	/**
 	 * The data on the SNS Topics that should have messages
 	 * sent to them if this log alarm is triggered
 	 */
-	private SNSTopicData[] snsTopicDataList;
+	private String[] snsTopicArnList;
+	
+	/**
+	 * Contains info on how to analyze the levels of the logs
+	 * currently being processed
+	 */
+	private LogLevelData logLevelData;
 	
 	/**
 	 * The data on what keywords should be searched for and
 	 * whether or not all or none need to be found
 	 */
-	private Optional<KeywordDataList> keywordDataList;
+	private Optional<KeywordData> keywordData;
 	
 	/**
 	 * Constructs a log alarm
-	 * @param logAlarmId The SQL ID for this log alarm
 	 * @param snsTopicDataList The Amazon SNS Topics to
 	 * send messages to if this log alarm is triggered
+	 * @param logLevelData Contains info on how to analyze
+	 * logs levels
 	 * @param keywordList The list of keywords to search
 	 * for when determining whether or not to trigger
 	 * this log alarm
-	 * @param logLevelCriteriaData The criteria a given
-	 * log's level must meet in order to trigger this log
 	 * alarm
 	 */
 	public LogAlarmData(
-			Long logAlarmId,
-			LogLevel logLevel,
-			String comparison,
-			SNSTopicData[] snsTopicDataList,
-			Optional<KeywordDataList> keywordDataList
+			String[] snsTopicArnList,
+			LogLevelData logLevelData,
+			Optional<KeywordData> keywordData
 	) {
-		this.logAlarmId = logAlarmId;
-		this.logLevel = logLevel;
-		this.comparison = comparison;
-		this.snsTopicDataList = snsTopicDataList;
-		this.keywordDataList = keywordDataList;
-	}
-	
-	/**
-	 * Returns the SQL ID of this log alarm
-	 * @return The SQL ID of this log alarm
-	 */
-	public Long getLogAlarmId() {
-		return this.logAlarmId;
+		this.logLevelData = logLevelData;
+		this.snsTopicArnList = snsTopicArnList;
+		this.keywordData = keywordData;
 	}
 	
 	/**
@@ -79,8 +56,8 @@ class LogAlarmData {
 	 * @return The Amazon SNS Topics to be published to
 	 * if this log alarm is triggered
 	 */
-	public SNSTopicData[] getSNSTopicDataList() {
-		return this.snsTopicDataList;
+	public String[] getSNSTopicArnList() {
+		return this.snsTopicArnList;
 	}
 	
 	/**
@@ -91,31 +68,23 @@ class LogAlarmData {
 	 * determining whether or not a given log should
 	 * trigger this log alarm
 	 */
-	public Optional<KeywordDataList> getKeywordDataList() {
-		return this.keywordDataList;
+	public Optional<KeywordData> getKeywordData() {
+		return this.keywordData;
 	}
 	
 	/**
-	 * Returns the level of this log alarm
-	 * @return The level of this log alarm
+	 * Returns info on how to analyze log levels
+	 * @return Info on how to analyze log levels
 	 */
-	public LogLevel getLogLevel() {
-		return this.logLevel;
+	public LogLevelData getLogLevelData() {
+		return this.logLevelData;
 	}
 	
 	/**
-	 * Returns the way log messages are to be compared to this log alarm
-	 * @return The way log messages are to be compared to this log alarm
-	 */
-	public String getComparison() {
-		return this.comparison;
-	}
-	
-	/**
-	 * Returns a string representation of this log alarm
+	 * Returns a string representation of this object
 	 * as a pretty printed JSON string. Used solely for
 	 * testing purposes
-	 * @return A string representation of this log alarm
+	 * @return A string representation of this object
 	 * as a pretty printed JSON string
 	 */
 	@Override

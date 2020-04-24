@@ -13,9 +13,9 @@ import com.ccc.logs.notifications.LambdaFunctionHandler;
  * A simple test harness for locally invoking your Lambda function handler.
  */
 public class LambdaFunctionHandlerTest {
-    private static Object errorInput;
-    private static Object warnInput;
-    private static Object infoInput;
+    private static Map<String, Map<String, String>> errorInput;
+    private static Map<String, Map<String, String>> warnInput;
+    private static Map<String, Map<String, String>> infoInput;
 
     @BeforeClass
     public static void createInput() {
@@ -35,18 +35,22 @@ public class LambdaFunctionHandlerTest {
     }
 
     private Context _createContext() {
-        TestContext ctx = new TestContext();
+        TestContext context = new TestContext();
+        
+        context.setFunctionName("ccc_notification_lambda");
+        context.setLogGroupName("ccc_test");
+        context.setLogStreamName("stream");
 
-        return ctx;
+        return context;
     }
 
     @Test
     public void testLambdaFunctionHandler() {
         LambdaFunctionHandler handler = new LambdaFunctionHandler();
-        Context ctx = this._createContext();
+        Context context = this._createContext();
 
-        handler.handleRequest(LambdaFunctionHandlerTest.errorInput, ctx);
-        handler.handleRequest(LambdaFunctionHandlerTest.warnInput, ctx);
-        handler.handleRequest(LambdaFunctionHandlerTest.infoInput, ctx);
+        handler.handleRequest(LambdaFunctionHandlerTest.errorInput, context);
+        handler.handleRequest(LambdaFunctionHandlerTest.warnInput, context);
+        handler.handleRequest(LambdaFunctionHandlerTest.infoInput, context);
     }
 }

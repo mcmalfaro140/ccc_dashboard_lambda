@@ -62,10 +62,10 @@ class LogEvent {
 	}
 	
 	/**
-	 * Returns a string representation of this log alarm
+	 * Returns a string representation of this object
 	 * as a pretty printed JSON string. Used solely for
 	 * testing purposes
-	 * @return A string representation of this log alarm
+	 * @return A string representation of this object
 	 * as a pretty printed JSON string
 	 */
 	@Override

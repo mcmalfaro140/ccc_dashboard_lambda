@@ -13,6 +13,7 @@ public class GlobalVariables {
 	 * Suppresses default constructor
 	 */
 	private GlobalVariables() {
+		throw new LogNotificationException("No instances of GlobalVariables should be made");
 	}
 	
 	/**
@@ -56,7 +57,9 @@ public class GlobalVariables {
 	/**
 	 * If any exceptions occur during the execution of
 	 * this Lambda function, A message will be send to
-	 * this Amazon SNS Topic
+	 * this Amazon SNS Topic ARN. This value must be
+	 * entered manually into the Lambda function's
+	 * environment variables
 	 */
 	public static final String EXCEPTION_SNS_TOPIC_ARN = System.getenv("EXCEPTION_SNS_TOPIC_ARN");
 }

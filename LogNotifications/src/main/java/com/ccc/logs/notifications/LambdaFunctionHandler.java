@@ -3,6 +3,7 @@ package com.ccc.logs.notifications;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Objects;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -14,7 +15,7 @@ import com.amazonaws.services.sns.model.PublishResult;
  * this class stateless because it enables AWS Lambda to use the
  * same instance of this class whenever it needs to
  */
-public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
+public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<String, String>>, Integer> {
 	/**
 	 * Starting point for the Lambda function
 	 * @param input The Base64 GZIP compressed
@@ -28,7 +29,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
 	 * @return 1 if an exception occurred, otherwise 0
 	 */
     @Override
-    public Integer handleRequest(Object input, Context context) {
+    public Integer handleRequest(Map<String, Map<String, String>> input, Context context) {
     	LogData logData = null;
     	LinkedList<LogAlarmData> logAlarmList = null;
     	StringBuilder cloudwatchLogData = new StringBuilder();
@@ -43,7 +44,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     		String stackTrace = this._getStackTraceAsString(e);
     		String exceptionMessage = "An exception occurred. Some messages may not have been sent\n\n" + stackTrace;
     		
-    		cloudwatchLogData.append(exceptionMessage);
+    		cloudwatchLogData.append(exceptionMessage);    		
     		AmazonSNSWrapper.publishToSNS(GlobalVariables.EXCEPTION_SNS_TOPIC_ARN, exceptionMessage);
     		
     		return 1;
@@ -52,7 +53,7 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
         			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
         			context.getMemoryLimitInMB(),
         			context.getRemainingTimeInMillis(),
-        			Objects.toString(logData, "Log Data Not Obtained"),
+        			Objects.toString(logData, input.get("awslogs").get("data")),
         			Objects.toString(logAlarmList, "Log Alarms Not Obtained")
         	);
     		
@@ -97,11 +98,11 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
     			
     			for (LogAlarmData logAlarm : logAlarmList) {
     				if (this._checkAlarm(logMessage, logAlarm)) {
-    					for (SNSTopicData snsTopicData : logAlarm.getSNSTopicDataList()) {
-    						String topicName = this._extractTopicName(snsTopicData.getTopicArn());
+    					for (String snsTopicArn : logAlarm.getSNSTopicArnList()) {
+    						String topicName = this._extractTopicName(snsTopicArn);
     						
     						PublishResult result = AmazonSNSWrapper.publishToSNS(
-    								snsTopicData.getTopicArn(),
+    								snsTopicArn,
     								logMessage.toString(),
     								logData.getLogGroup(),
     								logData.getLogStream()
@@ -145,8 +146,8 @@ public class LambdaFunctionHandler implements RequestHandler<Object, Integer> {
      * given log alarm, <tt>false</tt> otherwise
      */
     private boolean _checkAlarm(LogMessage logMessage, LogAlarmData logAlarm) {
-    	return LevelComparer.compare(logMessage.getLevel(), logAlarm.getLogLevel(), logAlarm.getComparison()) &&
-    			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordDataList());
+    	return LevelComparer.compare(logMessage.getLevel(), logAlarm.getLogLevelData()) &&
+    			KeywordSearcher.search(logMessage.getMessage(), logAlarm.getKeywordData());
     }
     
     /**

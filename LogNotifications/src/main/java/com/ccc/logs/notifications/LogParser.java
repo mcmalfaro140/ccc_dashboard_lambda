@@ -19,6 +19,7 @@ class LogParser {
 	 * Suppresses default constructor
 	 */
 	private LogParser() {
+		throw new LogNotificationException("No instances of LogParser should be made");
 	}
 	
 	/**
@@ -27,7 +28,7 @@ class LogParser {
 	 * @return The decompressed and parsed log data to
 	 * the Lambda function
 	 */
-	public static LogData parse(Object input) {
+	public static LogData parse(Map<String, Map<String, String>> input) {
 		String awslogs = LogParser._decodeInput(input);
 		LogData data = JsonConverter.parse(awslogs, LogData.class);
 		
@@ -39,11 +40,9 @@ class LogParser {
 	 * @param input The data to be decompressed
 	 * @return The decompressed input
 	 */
-	private static String _decodeInput(Object input) {
-		@SuppressWarnings(value="unchecked")
-		Map<String, Map<String, String>> map = (Map<String, Map<String, String>>)input;
-		String awsData = map.get("awslogs").get("data");
-		byte[] compressed = awsData.getBytes(StandardCharsets.US_ASCII);
+	private static String _decodeInput(Map<String, Map<String, String>> input) {
+		String awsLogData = input.get("awslogs").get("data");
+		byte[] compressed = awsLogData.getBytes(StandardCharsets.US_ASCII);
 		byte[] decodedBytes = Base64.getDecoder().decode(compressed);
 		
 		try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodedBytes)) {
