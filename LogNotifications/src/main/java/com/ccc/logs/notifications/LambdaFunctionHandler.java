@@ -57,9 +57,7 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     		String invocationData = String.format(
         			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
         			context.getMemoryLimitInMB(),
-        			context.getRemainingTimeInMillis(),
-        			Objects.toString(logData, "Log Data Not Obtained: " + input.get("awslogs").get("data")),
-        			Objects.toString(logAlarmList, "Log Alarms Not Obtained")
+        			context.getRemainingTimeInMillis()
         	);
     		
     		cloudwatchLogData.append(invocationData);
