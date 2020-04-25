@@ -55,7 +55,7 @@ public class LambdaFunctionHandler implements RequestHandler<Map<String, Map<Str
     		return 1;
     	} finally {
     		String invocationData = String.format(
-        			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s\n%s\n%s",
+        			"Max memory allocated in MB: %s\nTime remaining in milliseconds: %s",
         			context.getMemoryLimitInMB(),
         			context.getRemainingTimeInMillis()
         	);
