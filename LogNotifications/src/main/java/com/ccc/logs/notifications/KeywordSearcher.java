@@ -1,6 +1,7 @@
 package com.ccc.logs.notifications;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Class container for function that searches
@@ -82,14 +83,9 @@ class KeywordSearcher {
 	 * given string, <tt>false</tt> otherwise
 	 */
 	private static boolean _containsIgnoreCase(String str, String searchStr) {
-		final int lengthOfSearchStr = searchStr.length();
-
-	    for (int i = str.length() - lengthOfSearchStr; i >= 0; i--) {
-	        if (str.regionMatches(true, i, searchStr, 0, lengthOfSearchStr)) {
-	            return true;
-	        }
-	    }
-	    
-	    return false;
+		return Pattern
+				.compile(Pattern.quote(searchStr), Pattern.CASE_INSENSITIVE)
+				.matcher(str)
+				.find();
 	}
 }
